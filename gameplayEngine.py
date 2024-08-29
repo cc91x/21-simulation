@@ -1,0 +1,147 @@
+""" A class which performs most of the unique actions required during
+    a game of blackjack """
+
+from constants import HandResult
+from customLogging import global_logger as logger
+from dealerHand import DealerHand 
+from decisionEngine import DecisionEngine
+from gameplayConfig import GameplayConfig as cfg
+from playerHand import PlayerHand
+
+class GameplayEngine():
+
+    def __init__(self, bankroll, count, shoe, hand_analyzer):
+        self._bankroll = bankroll 
+        self._count = count
+        self._decision_engine = DecisionEngine(count)
+        self._shoe = shoe
+        self._hand_analyzer = hand_analyzer
+
+    def _check_for_blackjacks(self, player_hands, dealer_hand):
+        player_hand = player_hands[0]
+        return player_hand.is_blackjack() or dealer_hand.is_blackjack()
+    
+    def _deal_opening_cards(self, player_hands, dealer_hand):
+        player_hand = player_hands[0]
+        player_hand.deal_card_face_up(self._shoe, self._count, logger)
+        dealer_hand.deal_card_face_up(self._shoe, self._count, logger)
+        player_hand.deal_card_face_up(self._shoe, self._count, logger)
+        dealer_hand.deal_card_face_down(self._shoe)
+        logger.card(player_hand.get_hand_string())
+        logger.card(f'Dealer up card: {dealer_hand.get_face_up_card().get_card_string()}')
+
+    def _determine_bet_size(self):
+        return self._decision_engine.determine_bet_size(self._count)
+    
+    def _determine_hand_results(self, player_hands, dealer_hand):
+        dealer_score = dealer_hand.get_dealer_score()
+        for hand in player_hands:
+            hand_score = hand.get_optimal_score()
+    
+            if hand.is_blackjack() and not dealer_hand.is_blackjack():
+                result = HandResult.BLACKJACK_WIN
+            elif (not hand.is_blackjack() and dealer_hand.is_blackjack()) or (hand_score > 21) or (dealer_score <= 21 and dealer_score > hand_score):
+                result =  HandResult.LOSE 
+            elif dealer_score > 21 or hand_score > dealer_score:
+                result = HandResult.WIN 
+            else:
+                result = HandResult.PUSH
+    
+            logger.card(f'Hand Complete. Result for player: {result.name} with {hand.get_hand_string()} and {dealer_hand.get_hand_string()}')
+            
+            hand_win_amount = hand.get_win_amount(result, dealer_hand.is_blackjack())
+            hand.bankroll.add(hand_win_amount)
+            hand_pnl = hand_win_amount - hand.bet_value
+            self._hand_analyzer.analyze_hand(hand, dealer_hand.get_face_up_card(), hand_pnl, self._count)
+
+    def _double_down_on_hands_if_applicable(self, player_hands, dealer_up_card):
+        if len(player_hands) == 1 or cfg.DOUBLE_AFTER_SPLIT:
+            for hand in player_hands:
+                if self._decision_engine.should_double_down_func(hand, dealer_up_card):
+                    hand.double_down()
+
+    def _play_hand_as_dealer(self, player_hands, dealer_hand):
+        dealer_hand.reveal_face_down_card(self._count)
+        player_has_under_21 = any(hand.get_optimal_score() <= 21 for hand in player_hands)
+
+        while player_has_under_21 and self._decision_engine.should_dealer_hit(dealer_hand):
+            dealer_hand.deal_card_face_up(self._shoe, self._count, logger)
+
+    def _play_hands_as_player(self, player_hands, dealer_up_card):
+        for hand in player_hands:
+            while self._decision_engine.should_player_hit(hand, dealer_up_card):
+                hand.deal_card_face_up(self._shoe, self._count, logger)
+        
+    def _split_player_hands_if_applicable(self, player_hands, dealer_up_card):
+        should_split = True
+        
+        while len(player_hands) < cfg.SPLIT_MAX_TIMES + 1 and should_split:
+            new_hands = []
+            should_split = False
+
+            for hand in player_hands:
+                if not hand.insurance and self._decision_engine.should_split_func(hand, dealer_up_card):
+                    should_split = True
+                    hand1, hand2 = hand.split_hand()
+                    hand1.deal_card_face_up(self._shoe, self._count, logger)
+                    hand2.deal_card_face_up(self._shoe, self._count, logger)
+                    new_hands.extend([hand1, hand2])
+                else:
+                    new_hands.append(hand)
+            
+            player_hands = new_hands
+
+        return player_hands
+
+    def _surrender_hands_if_applicable(self, player_hands, dealer_hand):
+        dealer_up_card, new_hands = dealer_hand.get_face_up_card(), []
+        
+        for hand in player_hands:
+            if self._decision_engine.should_surrender_func(hand, dealer_up_card):
+                hand.surrender()
+                dealer_hand.reveal_face_down_card(self._count)
+                logger.card(f'Surrendering {hand.get_hand_string()}')
+                self._hand_analyzer.analyze_hand(hand, dealer_up_card, hand.bet_value / 2, self._count)
+            else:
+                new_hands.append(hand)   
+        
+        return new_hands
+    
+    def _take_insurance_if_applicable(self, player_hands, dealer_up_card):
+        player_hand = player_hands[0]
+        if self._decision_engine.should_take_insurance_func(dealer_up_card):
+            logger.card(f'Taking insurance for {player_hand.bet_value / 2}')
+            player_hand.take_insurance()
+
+
+    def play_blackjack(self):
+        """ The main gameplay logic """
+        
+        while self._hand_analyzer.hands_played < cfg.HANDS_TO_PLAY and (
+            self._shoe.num_shuffles - 1) < cfg.SHUFFLES_TO_PLAY: 
+            
+            if self._shoe.should_reshuffle():
+                logger.summary(f'''Reshuffling self._shoe. Dealt: {len(self._shoe.dealt)}/{self._shoe.num_cards} cards. 
+                               Total hands played: {self._hand_analyzer.hands_played}. Bankroll: {self._bankroll.balance}''')
+                self._shoe.shuffle()
+                self._count.reset()
+
+            bet_size = self._determine_bet_size()
+            player_hands = [PlayerHand(self._bankroll, bet_size, [])]
+            dealer_hands = DealerHand([])
+
+            self._deal_opening_cards(player_hands, dealer_hands)
+            dealer_up_card = dealer_hands.get_face_up_card()
+
+            self._take_insurance_if_applicable(player_hands, dealer_up_card)
+
+            if not self._check_for_blackjacks(player_hands, dealer_hands):
+                player_hands = self._split_player_hands_if_applicable(player_hands, dealer_up_card)
+                
+                player_hands = self._surrender_hands_if_applicable(player_hands, dealer_hands)
+                self._double_down_on_hands_if_applicable(player_hands, dealer_up_card)
+                self._play_hands_as_player(player_hands, dealer_up_card)
+                self._play_hand_as_dealer(player_hands, dealer_hands)
+
+            self._determine_hand_results(player_hands, dealer_hands)
+            logger.card(f'Hands played: {self._hand_analyzer.hands_played} PNL so far: {self._bankroll.balance}')

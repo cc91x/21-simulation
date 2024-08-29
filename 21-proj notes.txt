@@ -1,0 +1,184 @@
+
+
+
+Mostly about rules of blackjack here
+
+# start with 52 card deck
+# iterate through all possible combinations of deck 
+# and all possible hand combinations, dealt, dealer face up, face down 
+# for each hand, try all possibilities (hit, stand, split, others?) and calculate the win % of each decision based on deck makeup
+# save the results in map or something, then use the results moving forward. Start wiht one 52 card deck 
+
+# above is purely step 1, info gathering. Step 2 would be to then run simulations of using the logic of what is saved 
+# and can run many times to simulate it 
+# should be fun 
+
+# also need to learn the exact rules and scoring 
+# should try multiple card counting strategies, hi-lo and my one 
+
+# so there may be way too many possibilities to accurately do 
+# good question would be how do chess engines do it?
+# can definitely start with the hi-lo counting strat 
+# and can test out basic strategies, seems like this sim would be perfect for that... 
+
+# https://www.wikihow.com/Count-Cards-in-Blackjack
+# maybe the first step is to just run the simulation 
+
+
+# Detailed list of rules - should probably follow this 
+# https://bicyclecards.com/how-to-play/blackjack/
+
+
+#https://www.qfit.com/book/blackjackbook.htm 
+# useful resource, some of it free online(?). May be able to find some strategies and tables in here 
+
+# I think for a very first start, build basic strategy bot 
+# then build with Hi-Lo count 
+# im sure the graph with Hi-Lo count is in here https://www.youtube.com/watch?v=QLYsck5fsLU&t=111s, good ole steven bridges video 
+
+# so how do we code this
+
+# for loop in n times to run 
+# call play function 
+
+# play function. probably takes a number of parameters, n decks, strategy
+
+# there should be a turn function? take a deck and deal to player 
+
+# This looks good https://www.qfit.com/blackjack-strategy.htm
+
+# ericwhitehead@Erics-Mac-mini clag % /usr/local/bin/python3 /Users/ericwhitehead/Desktop/clag/21-project/21-sim.py
+
+Little bit of alpha here on what to do when the count is high. The trend I see would be to use the same basic strategy, but expect higher win pct. Can use basic strat
+# https://www.techopedia.com/gambling-guides/card-counting
+
+# This link has a list of options for how the house plays, this aligns with the opening parameters
+https://wizardofodds.com/games/blackjack/hand-calculator/
+
+
+OpenAI response on balanced vs unbalanced counting 
+In blackjack card counting, the difference between a balanced count and an unbalanced count lies in how the values of the cards are assigned and how the count changes as the deck is dealt. Here's an explanation of both types:
+
+Balanced Count
+A balanced count is a card counting system where the sum of all the card values in a full deck equals zero. This means that if you were to count through an entire deck of 52 cards using the system, you would end up with a count of zero. The most commonly known balanced count system is the Hi-Lo system.
+
+Hi-Lo System (Example of a Balanced Count)
+2, 3, 4, 5, 6: +1
+7, 8, 9: 0
+10, J, Q, K, A: -1
+In the Hi-Lo system, low cards (2-6) are assigned a value of +1, middle cards (7-9) are assigned a value of 0, and high cards (10, J, Q, K, A) are assigned a value of -1. Since there are an equal number of low and high cards in a deck, the count will balance out to zero.
+
+Unbalanced Count
+An unbalanced count is a card counting system where the sum of all the card values in a full deck does not equal zero. These systems often make it easier to keep track of the count because they don't require converting the count to a true count (adjusting the count based on the number of decks remaining).
+
+KO System (Example of an Unbalanced Count)
+2, 3, 4, 5, 6, 7: +1
+8, 9: 0
+10, J, Q, K, A: -1
+In the Knock-Out (KO) system, low and middle cards (2-7) are assigned a value of +1, middle cards (8-9) are assigned a value of 0, and high cards (10, J, Q, K, A) are assigned a value of -1. Because there are more low and middle cards assigned a positive value than high cards assigned a negative value, the count does not balance out to zero. This makes it unbalanced.
+
+Key Differences
+Sum of Values:
+
+Balanced Count: The sum of all card values equals zero in a full deck.
+Unbalanced Count: The sum of all card values does not equal zero in a full deck.
+Complexity:
+
+Balanced Count: Requires conversion to a true count (adjusting for the number of decks remaining) to get an accurate measure of the advantage.
+Unbalanced Count: Often does not require conversion to a true count, making it simpler to use but potentially less precise.
+Examples:
+
+Balanced Count: Hi-Lo system, Omega II.
+Unbalanced Count: KO system, Red Seven system.
+Practical Use
+Balanced Count Systems are often preferred by serious card counters who want more precise control and are willing to handle the extra complexity of converting to a true count.
+Unbalanced Count Systems are popular among casual counters and beginners because they are simpler to use and do not require keeping track of the number of decks remaining.
+Both systems have their advantages and can be effective if used correctly, depending on the counter's skill level and the specific conditions of the game they are playing.
+
+# Hmm investigate this 2024-07-29 00:21:22,891 - ROUND - Hand Complete. Result for player: PUSH player hand: [[Q♣][8♣]] dealer hand: [[4♥][A♠][J♦][5♠]]
+
+# This too 2024-08-02 00:34:26,656 - ROUND - Hand Complete. Result for player: PUSH player hand: [[2♥][7♠]] dealer hand: [[8♥][J♠]]
+
+# Basic strategy default charts here: https://www.blackjackapprenticeship.com/blackjack-strategy-charts/
+
+Update project to use agreed python formatting - https://peps.python.org/pep-0008/
+
+Looking up new strategies...
+    - https://www.lasvegasadvisor.com/gambling-with-an-edge/the-easy-red-7-count/
+    - https://www.youtube.com/watch?v=LeQVdnk9rfY this vid links to gamblingsites.org, which seems to used to have what we're looking for. Maybe I can use waybackmachine to find it?
+
+
+-- Investigate this, dealer blackjack not workign?
+2024-08-13 00:24:50,502 - CARD - player hand: [[5 H][5 S]]
+2024-08-13 00:24:50,503 - CARD - Dealer up card: [Q S]
+2024-08-13 00:24:50,504 - ROUND - Hand Complete. Result for player: LOSE player hand: [[5 H][5 S]] dealer hand: [[Q S][A H]]
+2024-08-13 00:24:50,505 - ROUND - Hands played: 1 PNL so far: 0
+2024-08-13 00:24:50,505 - RESHUFFLE - Simulation complete. Played 1, final +/- is 0
+
+
+
+"""
+Things to add:
+    Fully Done: 
+        - Gameplay
+        - logging - mostly done, see if we can make it a global instead of class variable
+        - look at @property in lieu of getter / setter ... general consensus is to favor @property over getter and setter
+        - Getter / setters in funcs
+        - betting ranges - simple enough bc only applies at the beginning of a hand, make it customizable
+            - should be simple 1 to 1 count to unit mapping 
+        - Add multiple pre-saved hand configs in the decision matrices - this can be done under the decision matrices folder, with each parent directory the name of a strategy
+        - early should surrender feature? 
+        - add results summary object and page at the end
+        - Add summary config that gets produced at the end of the round, will include total PNL and breakdown by Win % vs True Count / count at the time -> ultimately th output
+        - add layers of counts to the card matrices
+        - Single quotes vs double quotes consistency across project
+        Formatting items:
+            - Order Imports
+            - Underscores before all class variable names 
+            - Number of spaces between funcs? 
+            - Remove unused funcs 
+            - function description / comments annotations?
+            - Put main loop in if __name__ == __main__
+            - Docstrings atop all classes?
+
+    Mostly Done:
+        - parameterized customizability - Everything added is done. Can add some more customizability too as I discover it 
+        - counting - added basic config. need to add logic for aces count 
+        - improve the lookup matrices to use the min and max rows then card value is lt or gt the min / max
+        - honestly just go through this entire thing, https://peps.python.org/pep-0008/#introduction
+        - case where there is a helper func in a class, that doesn't use any class variables. Where to put? in the class, or in a common file?
+            -> common file
+
+    Not at all done: 
+        Formatting items:
+            - Modify file structure to use accepted python project structure... /src, etc.
+            - Add README explaining how to use, and the relevant variables 
+            - Reorder functions within class, private functions first, then public, in logical order (order which they are used) 
+            - order arguments in functions / constructors
+
+
+
+
+    FINAL STEPS: 
+        - Finish up Formatting items
+            - Line length capped at 79 - esp for strings , can be done with comments ''' - this is a Maybe
+        - Actually learn and test a few strategies - to verify results / findings 
+        - setup proper project structure 
+            - use proper structure
+        - add documentation
+        - rename 21-sim, move to /scripts directory
+
+    ENHANCEMENTS:
+        - Aces side count 
+        - write results summary to a file, matplot lib visual, csv file 
+        - suit based counting
+        - ability to more customizably craft the deck order and the way cards are dealt to test strategies and scenarios
+            - scenario testing to be exact. Like say, the count should be x, this is the deck depth, here is my strategy, how profitable is this scenario with this strategy?
+            - can then run every possible outcome... 
+        - bankroll sized betting. i.e. if bankroll grows or shrinks mid game, change bet size accordingly
+"""
+
+
+
+
+
