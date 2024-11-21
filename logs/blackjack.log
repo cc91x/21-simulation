@@ -3093,3 +3093,64 @@
 2024-08-17 23:34:00,708 - SUMMARY - 
 2024-08-17 23:34:00,709 - SUMMARY - Simulation Complete. Played 2 hands. Ending Pnl is 1.
 2024-08-17 23:34:00,711 - SUMMARY - Used strategy: hiLo
+2024-11-19 10:06:33,291 - DECISION - Dealt card to Player: [2 C]
+2024-11-19 10:06:33,292 - DECISION - Dealt card to Dealer: [10 S]
+2024-11-19 10:06:33,292 - DECISION - Dealt card to Player: [9 H]
+2024-11-19 10:06:33,292 - CARD - Player [[2 C][9 H]]
+2024-11-19 10:06:33,292 - CARD - Dealer up card: [10 S]
+2024-11-19 10:06:33,292 - DECISION - Insurance decision is False taken with dealer up card: [10 S] and count: 0
+2024-11-19 10:06:33,292 - DECISION - Split hand decision is False with two [2 C] and dealer up card [10 S]
+2024-11-19 10:06:33,292 - DECISION - Player surrender decision is False with Player [[2 C][9 H]] and dealer up card [10 S]
+2024-11-19 10:06:33,292 - DECISION - Double down hand decision function is True for Player [[2 C][9 H]] and dealer up card: [10 S]
+2024-11-19 10:06:33,293 - CARD - Player hit decision is True with Player [[2 C][9 H]] and dealer up card [10 S]
+2024-11-19 10:06:33,293 - DECISION - Dealt card to Player: [6 D]
+2024-11-19 10:06:33,293 - CARD - Player hit decision is False with Player [[2 C][9 H][6 D]] and dealer up card [10 S]
+2024-11-19 10:06:33,293 - CARD - Hand Complete. Result for player: LOSE with Player [[2 C][9 H][6 D]] and Dealer [[10 S][10 H]]
+2024-11-19 10:06:33,293 - CARD - Hands played: 1 PNL so far: -2
+2024-11-19 10:06:33,293 - DECISION - Dealt card to Player: [3 C]
+2024-11-19 10:06:33,293 - DECISION - Dealt card to Dealer: [5 S]
+2024-11-19 10:06:33,293 - DECISION - Dealt card to Player: [3 C]
+2024-11-19 10:06:33,293 - CARD - Player [[3 C][3 C]]
+2024-11-19 10:06:33,293 - CARD - Dealer up card: [5 S]
+2024-11-19 10:06:33,293 - DECISION - Insurance decision is False taken with dealer up card: [5 S] and count: 1
+2024-11-19 10:06:33,293 - DECISION - Split hand decision is True with two [3 C] and dealer up card [5 S]
+2024-11-19 10:06:33,293 - DECISION - Dealt card to Player: [J S]
+2024-11-19 10:06:33,293 - DECISION - Dealt card to Player: [5 D]
+2024-11-19 10:06:33,293 - DECISION - Split hand decision is False with two [3 C] and dealer up card [5 S]
+2024-11-19 10:06:33,293 - DECISION - Split hand decision is False with two [3 C] and dealer up card [5 S]
+2024-11-19 10:06:33,293 - DECISION - Player surrender decision is False with Player [[3 C][J S]] and dealer up card [5 S]
+2024-11-19 10:06:33,293 - DECISION - Player surrender decision is False with Player [[3 C][5 D]] and dealer up card [5 S]
+2024-11-19 10:06:33,293 - DECISION - Double down hand decision function is False for Player [[3 C][J S]] and dealer up card: [5 S]
+2024-11-19 10:06:33,293 - DECISION - Double down hand decision function is False for Player [[3 C][5 D]] and dealer up card: [5 S]
+2024-11-19 10:06:33,293 - CARD - Player hit decision is False with Player [[3 C][J S]] and dealer up card [5 S]
+2024-11-19 10:06:33,293 - CARD - Player hit decision is True with Player [[3 C][5 D]] and dealer up card [5 S]
+2024-11-19 10:06:33,293 - DECISION - Dealt card to Player: [A S]
+2024-11-19 10:06:33,293 - CARD - Player hit decision is False with Player [[3 C][5 D][A S]] and dealer up card [5 S]
+2024-11-19 10:06:33,293 - DECISION - Dealt card to Dealer: [6 H]
+2024-11-19 10:06:33,293 - DECISION - Dealt card to Dealer: [2 S]
+2024-11-19 10:06:33,293 - CARD - Hand Complete. Result for player: LOSE with Player [[3 C][J S]] and Dealer [[5 S][5 H][6 H][2 S]]
+2024-11-19 10:06:33,293 - CARD - Hand Complete. Result for player: WIN with Player [[3 C][5 D][A S]] and Dealer [[5 S][5 H][6 H][2 S]]
+2024-11-19 10:06:33,293 - CARD - Hands played: 3 PNL so far: -3
+2024-11-19 10:06:33,293 - SUMMARY - END OF GAME ANALYSIS 
+
+2024-11-19 10:06:33,293 - SUMMARY - 
+2024-11-19 10:06:33,293 - SUMMARY - HAND STATISTICS BY PAIR TOTAL vs DEALER UP CARD
+2024-11-19 10:06:33,294 - SUMMARY -      |     2       |     3       |     4       |     5       |     6       |     7       |     8       |     9       |     10      |     11     
+2024-11-19 10:06:33,294 - SUMMARY -      | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL
+2024-11-19 10:06:33,294 - SUMMARY - -----|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------
+2024-11-19 10:06:33,294 - SUMMARY -   8: |       0   0 |       0   0 |       0   0 |       1   1 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-19 10:06:33,294 - SUMMARY -   9: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-19 10:06:33,294 - SUMMARY -  10: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-19 10:06:33,294 - SUMMARY -  11: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       1  -2 |       0   0
+2024-11-19 10:06:33,294 - SUMMARY -  12: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-19 10:06:33,294 - SUMMARY -  13: |       0   0 |       0   0 |       0   0 |       1  -1 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-19 10:06:33,294 - SUMMARY - 
+2024-11-19 10:06:33,294 - SUMMARY - HAND STATISTICS BY COUNT
+2024-11-19 10:06:33,294 - SUMMARY - Count | # Hands | PNL
+2024-11-19 10:06:33,294 - SUMMARY - ------|---------|----
+2024-11-19 10:06:33,294 - SUMMARY -     0 |       1 |  -2
+2024-11-19 10:06:33,294 - SUMMARY -     1 |       0 |   0
+2024-11-19 10:06:33,294 - SUMMARY -     2 |       2 |   0
+2024-11-19 10:06:33,294 - SUMMARY - 
+2024-11-19 10:06:33,294 - SUMMARY - Simulation Complete. Played 3 hands. Ending Pnl is -2.
+2024-11-19 10:06:33,294 - SUMMARY - Used strategy: hiLo

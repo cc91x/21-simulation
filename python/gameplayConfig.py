@@ -5,7 +5,8 @@ from configparser import ConfigParser
 from constants import LogLevel, BASE_DIRECTORY
 
 config = ConfigParser()
-raw_config_file_path = BASE_DIRECTORY + '/config/blackjackConfig.ini'
+# should go with relative path here ... that way, we don't need to specify a BASE_DIRECTORY variable
+raw_config_file_path = BASE_DIRECTORY + 'config/blackjackConfig.ini'
 config.read(raw_config_file_path)
 
 

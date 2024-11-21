@@ -178,7 +178,8 @@ Things to add:
         - bankroll sized betting. i.e. if bankroll grows or shrinks mid game, change bet size accordingly
 """
 
-
 test comment
 
-
+TODO: Should we capitalize the file names? not sure why theyre not already
+claude is suggesting using underscores instead of camelcase for file names ... I could get behind that
+    - PEP 8 supported, /advised

@@ -1,6 +1,5 @@
 from bankroll import Bankroll
 from card import Card
-from constants import HandResult
 from count import Count
 from shoe import Shoe
 from dealerHand import DealerHand
