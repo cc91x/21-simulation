@@ -2,13 +2,6 @@
 
 from enum import Enum
 
-# User Inputs - why can't these be in the config file...?
-# get rid of BASE_DIRECTORY, and move STRATEGY_NAME to the .ini file. Everything should be done from the config file 
-BASE_DIRECTORY = '/Users/ericwhitehead/Desktop/clag/21-project-post-mv/'
-STRATEGY_NAME = 'hiLo'
-
-COUNT_DIRECTORY = BASE_DIRECTORY + 'strategies/' + STRATEGY_NAME + '/'
-
 
 class CardRank(Enum):
     

@@ -2,7 +2,6 @@
 
 from math import ceil, floor
 
-from constants import COUNT_DIRECTORY
 from gameplayConfig import GameplayConfig as cfg
 from vingtFunctions import load_1d_decision_matrix
 
@@ -11,7 +10,7 @@ class Count():
     
     def __init__(self, num_decks, starting_count):
         self._cards_dealt = []
-        self._count_matrix = load_1d_decision_matrix(COUNT_DIRECTORY + 'COUNT_CARD_VALUES.csv')
+        self._count_matrix = load_1d_decision_matrix(cfg.COUNT_DIRECTORY + 'COUNT_CARD_VALUES.csv')
         self._num_decks = num_decks
         self._running_count = starting_count
 

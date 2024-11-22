@@ -3,11 +3,10 @@
 from logging import addLevelName, StreamHandler, Logger, getLogger, Formatter 
 from logging.handlers import RotatingFileHandler
 
-from constants import BASE_DIRECTORY, LogLevel
+from constants import LogLevel
 from gameplayConfig import GameplayConfig as cfg
 
 
-# Add a method to the Logger class to handle the custom level
 def card_logging_level(self, message, *args, **kwargs):
     if self.isEnabledFor(LogLevel.CARD.value):
         self._log(LogLevel.CARD.value, message, args, **kwargs)
@@ -32,7 +31,7 @@ def setupLogging(log_level, include_console_logging):
     logger.setLevel(log_level)
     formatter = Formatter('%(asctime)s - %(levelname)s - %(message)s')
 
-    log_file_path = BASE_DIRECTORY + 'logs/blackjack.log'    
+    log_file_path = '../logs/blackjack.log'    
     file_handler = RotatingFileHandler(log_file_path, maxBytes=1000000, backupCount=1)
     file_handler.setLevel(log_level)
     file_handler.setFormatter(formatter)

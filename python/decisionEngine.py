@@ -1,6 +1,5 @@
 """ Class performing all game related player decisions, as configured in csv's"""
 
-from constants import COUNT_DIRECTORY
 from customLogging import global_logger as logger
 from gameplayConfig import GameplayConfig as cfg
 from vingtFunctions import adjust_to_range, do_matrix_lookup_3d, load_1d_decision_matrix, load_3d_decision_matrix
@@ -10,14 +9,14 @@ class DecisionEngine():
 
     def __init__(self, count):
         self._count = count
-        self._bet_sizing_mapping = load_1d_decision_matrix(COUNT_DIRECTORY + 'BET_SIZING_MAPPING.csv')
-        self._hard_should_hit_matrix = load_3d_decision_matrix(COUNT_DIRECTORY + 'HARD_SHOULD_HIT_MATRIX.csv')
-        self._hard_should_double_matrix = load_3d_decision_matrix(COUNT_DIRECTORY + 'HARD_SHOULD_DOUBLE_MATRIX.csv')
-        self._should_split_matrix = load_3d_decision_matrix(COUNT_DIRECTORY + 'SHOULD_SPLIT_MATRIX.csv')
-        self._should_surrender_matrix = load_3d_decision_matrix(COUNT_DIRECTORY + 'SHOULD_SURRENDER_MATRIX.csv')
-        self._should_take_insurance_matrix = load_1d_decision_matrix(COUNT_DIRECTORY + 'SHOULD_TAKE_INSURANCE_MATRIX.csv')
-        self._soft_should_hit_matrix = load_3d_decision_matrix(COUNT_DIRECTORY + 'SOFT_SHOULD_HIT_MATRIX.csv')
-        self._soft_should_double_matrix = load_3d_decision_matrix(COUNT_DIRECTORY + 'SOFT_SHOULD_DOUBLE_MATRIX.csv')
+        self._bet_sizing_mapping = load_1d_decision_matrix(cfg.COUNT_DIRECTORY + 'BET_SIZING_MAPPING.csv')
+        self._hard_should_hit_matrix = load_3d_decision_matrix(cfg.COUNT_DIRECTORY + 'HARD_SHOULD_HIT_MATRIX.csv')
+        self._hard_should_double_matrix = load_3d_decision_matrix(cfg.COUNT_DIRECTORY + 'HARD_SHOULD_DOUBLE_MATRIX.csv')
+        self._should_split_matrix = load_3d_decision_matrix(cfg.COUNT_DIRECTORY + 'SHOULD_SPLIT_MATRIX.csv')
+        self._should_surrender_matrix = load_3d_decision_matrix(cfg.COUNT_DIRECTORY + 'SHOULD_SURRENDER_MATRIX.csv')
+        self._should_take_insurance_matrix = load_1d_decision_matrix(cfg.COUNT_DIRECTORY + 'SHOULD_TAKE_INSURANCE_MATRIX.csv')
+        self._soft_should_hit_matrix = load_3d_decision_matrix(cfg.COUNT_DIRECTORY + 'SOFT_SHOULD_HIT_MATRIX.csv')
+        self._soft_should_double_matrix = load_3d_decision_matrix(cfg.COUNT_DIRECTORY + 'SOFT_SHOULD_DOUBLE_MATRIX.csv')
 
 
     def determine_bet_size(self, count):

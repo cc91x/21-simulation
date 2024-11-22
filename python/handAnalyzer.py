@@ -1,7 +1,7 @@
 """ A class for processing the results throughout the simulation """
 
-from constants import STRATEGY_NAME
 from customLogging import global_logger as logger
+from gameplayConfig import GameplayConfig as cfg
 from hand import Hand
 
 COUNT = 'Count'
@@ -71,7 +71,7 @@ class HandAnalyzer():
         logger.summary('')
         ending_pnl = sum(bal for _, bal in self._hands_by_count.values())
         logger.summary(f'Simulation Complete. Played {self._hands_played} hands. Ending Pnl is {ending_pnl}.')
-        logger.summary(f'Used strategy: {STRATEGY_NAME}')
+        logger.summary(f'Used strategy: {cfg.STRATEGY_NAME}')
         
     def _format_aces_pair(self, val):
         return f'A,{val}:' 

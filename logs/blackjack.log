@@ -3154,3 +3154,91 @@
 2024-11-19 10:06:33,294 - SUMMARY - 
 2024-11-19 10:06:33,294 - SUMMARY - Simulation Complete. Played 3 hands. Ending Pnl is -2.
 2024-11-19 10:06:33,294 - SUMMARY - Used strategy: hiLo
+2024-11-21 23:29:58,157 - DECISION - Dealt card to Player: [Q H]
+2024-11-21 23:29:58,158 - DECISION - Dealt card to Dealer: [10 S]
+2024-11-21 23:29:58,159 - DECISION - Dealt card to Player: [6 C]
+2024-11-21 23:29:58,161 - CARD - Player [[Q H][6 C]]
+2024-11-21 23:29:58,162 - CARD - Dealer up card: [10 S]
+2024-11-21 23:29:58,163 - DECISION - Insurance decision is False taken with dealer up card: [10 S] and count: 0
+2024-11-21 23:29:58,165 - DECISION - Split hand decision is False with two [Q H] and dealer up card [10 S]
+2024-11-21 23:29:58,166 - DECISION - Player surrender decision is True with Player [[Q H][6 C]] and dealer up card [10 S]
+2024-11-21 23:29:58,167 - CARD - Surrendering Player [[Q H][6 C]]
+2024-11-21 23:29:58,170 - CARD - Hands played: 1 PNL so far: -0.5
+2024-11-21 23:29:58,172 - DECISION - Dealt card to Player: [5 H]
+2024-11-21 23:29:58,173 - DECISION - Dealt card to Dealer: [5 S]
+2024-11-21 23:29:58,174 - DECISION - Dealt card to Player: [3 C]
+2024-11-21 23:29:58,176 - CARD - Player [[5 H][3 C]]
+2024-11-21 23:29:58,177 - CARD - Dealer up card: [5 S]
+2024-11-21 23:29:58,178 - DECISION - Insurance decision is False taken with dealer up card: [5 S] and count: 1
+2024-11-21 23:29:58,180 - DECISION - Split hand decision is False with two [5 H] and dealer up card [5 S]
+2024-11-21 23:29:58,181 - DECISION - Player surrender decision is False with Player [[5 H][3 C]] and dealer up card [5 S]
+2024-11-21 23:29:58,183 - DECISION - Double down hand decision function is False for Player [[5 H][3 C]] and dealer up card: [5 S]
+2024-11-21 23:29:58,186 - CARD - Player hit decision is True with Player [[5 H][3 C]] and dealer up card [5 S]
+2024-11-21 23:29:58,187 - DECISION - Dealt card to Player: [10 D]
+2024-11-21 23:29:58,189 - CARD - Player hit decision is False with Player [[5 H][3 C][10 D]] and dealer up card [5 S]
+2024-11-21 23:29:58,190 - DECISION - Dealt card to Dealer: [J H]
+2024-11-21 23:29:58,191 - CARD - Hand Complete. Result for player: WIN with Player [[5 H][3 C][10 D]] and Dealer [[5 S][9 C][J H]]
+2024-11-21 23:29:58,192 - CARD - Hands played: 2 PNL so far: 0.5
+2024-11-21 23:29:58,192 - SUMMARY - END OF GAME ANALYSIS 
+
+2024-11-21 23:29:58,193 - SUMMARY - 
+2024-11-21 23:29:58,194 - SUMMARY - HAND STATISTICS BY PAIR TOTAL vs DEALER UP CARD
+2024-11-21 23:29:58,195 - SUMMARY -      |     2       |     3       |     4       |     5       |     6       |     7       |     8       |     9       |     10      |     11     
+2024-11-21 23:29:58,197 - SUMMARY -      | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL
+2024-11-21 23:29:58,198 - SUMMARY - -----|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------
+2024-11-21 23:29:58,199 - SUMMARY -   8: |       0   0 |       0   0 |       0   0 |       1   1 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-21 23:29:58,199 - SUMMARY -   9: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-21 23:29:58,201 - SUMMARY -  10: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-21 23:29:58,202 - SUMMARY -  11: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-21 23:29:58,204 - SUMMARY -  12: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-21 23:29:58,206 - SUMMARY -  13: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-21 23:29:58,210 - SUMMARY -  14: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-21 23:29:58,211 - SUMMARY -  15: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0
+2024-11-21 23:29:58,211 - SUMMARY -  16: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       1 0.5 |       0   0
+2024-11-21 23:29:58,212 - SUMMARY - 
+2024-11-21 23:29:58,214 - SUMMARY - HAND STATISTICS BY COUNT
+2024-11-21 23:29:58,214 - SUMMARY - Count | # Hands | PNL
+2024-11-21 23:29:58,216 - SUMMARY - ------|---------|----
+2024-11-21 23:29:58,217 - SUMMARY -     0 |       2 | 1.5
+2024-11-21 23:29:58,217 - SUMMARY - 
+2024-11-21 23:29:58,218 - SUMMARY - Simulation Complete. Played 2 hands. Ending Pnl is 1.5.
+2024-11-21 23:29:58,218 - SUMMARY - Used strategy: hiLo
+2024-11-22 00:05:09,196 - DECISION - Dealt card to Player: [5 C]
+2024-11-22 00:05:09,197 - DECISION - Dealt card to Dealer: [9 D]
+2024-11-22 00:05:09,197 - DECISION - Dealt card to Player: [K D]
+2024-11-22 00:05:09,198 - CARD - Player [[5 C][K D]]
+2024-11-22 00:05:09,199 - CARD - Dealer up card: [9 D]
+2024-11-22 00:05:09,200 - DECISION - Insurance decision is False taken with dealer up card: [9 D] and count: 0
+2024-11-22 00:05:09,201 - DECISION - Split hand decision is False with two [5 C] and dealer up card [9 D]
+2024-11-22 00:05:09,201 - DECISION - Player surrender decision is False with Player [[5 C][K D]] and dealer up card [9 D]
+2024-11-22 00:05:09,201 - DECISION - Double down hand decision function is False for Player [[5 C][K D]] and dealer up card: [9 D]
+2024-11-22 00:05:09,203 - CARD - Player hit decision is True with Player [[5 C][K D]] and dealer up card [9 D]
+2024-11-22 00:05:09,203 - DECISION - Dealt card to Player: [8 H]
+2024-11-22 00:05:09,204 - CARD - Player hit decision is False with Player [[5 C][K D][8 H]] and dealer up card [9 D]
+2024-11-22 00:05:09,205 - CARD - Hand Complete. Result for player: LOSE with Player [[5 C][K D][8 H]] and Dealer [[9 D][5 D]]
+2024-11-22 00:05:09,206 - CARD - Hands played: 1 PNL so far: -1
+2024-11-22 00:05:09,206 - DECISION - Dealt card to Player: [7 S]
+2024-11-22 00:05:09,207 - DECISION - Dealt card to Dealer: [A C]
+2024-11-22 00:05:09,207 - DECISION - Dealt card to Player: [9 C]
+2024-11-22 00:05:09,208 - CARD - Player [[7 S][9 C]]
+2024-11-22 00:05:09,208 - CARD - Dealer up card: [A C]
+2024-11-22 00:05:09,209 - DECISION - Insurance decision is False taken with dealer up card: [A C] and count: 0
+2024-11-22 00:05:09,210 - CARD - Hand Complete. Result for player: LOSE with Player [[7 S][9 C]] and Dealer [[A C][Q D]]
+2024-11-22 00:05:09,211 - CARD - Hands played: 2 PNL so far: -2
+2024-11-22 00:05:09,212 - SUMMARY - END OF GAME ANALYSIS 
+
+2024-11-22 00:05:09,213 - SUMMARY - 
+2024-11-22 00:05:09,214 - SUMMARY - HAND STATISTICS BY PAIR TOTAL vs DEALER UP CARD
+2024-11-22 00:05:09,217 - SUMMARY -      |     2       |     3       |     4       |     5       |     6       |     7       |     8       |     9       |     10      |     11     
+2024-11-22 00:05:09,218 - SUMMARY -      | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL | # Hands PNL
+2024-11-22 00:05:09,219 - SUMMARY - -----|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------
+2024-11-22 00:05:09,219 - SUMMARY -  15: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       1  -1 |       0   0 |       0   0
+2024-11-22 00:05:09,220 - SUMMARY -  16: |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       0   0 |       1  -1
+2024-11-22 00:05:09,220 - SUMMARY - 
+2024-11-22 00:05:09,221 - SUMMARY - HAND STATISTICS BY COUNT
+2024-11-22 00:05:09,221 - SUMMARY - Count | # Hands | PNL
+2024-11-22 00:05:09,223 - SUMMARY - ------|---------|----
+2024-11-22 00:05:09,223 - SUMMARY -     0 |       2 |  -2
+2024-11-22 00:05:09,224 - SUMMARY - 
+2024-11-22 00:05:09,226 - SUMMARY - Simulation Complete. Played 2 hands. Ending Pnl is -2.
+2024-11-22 00:05:09,227 - SUMMARY - Used strategy: hiLo
