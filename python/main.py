@@ -1,9 +1,9 @@
 from bankroll import Bankroll
 from count import Count
 from shoe import Shoe
-from gameplayConfig import GameplayConfig as cfg
-from gameplayEngine import GameplayEngine
-from handAnalyzer import HandAnalyzer
+from gameplay_config import GameplayConfig as cfg
+from gameplay_engine import GameplayEngine
+from hand_analyzer import HandAnalyzer
 
 
 if __name__ == '__main__':

@@ -182,4 +182,11 @@ test comment
 
 TODO: Should we capitalize the file names? not sure why theyre not already
 claude is suggesting using underscores instead of camelcase for file names ... I could get behind that
-    - PEP 8 supported, /advised
+    - PEP 8 supported, /advised -> done 
+
+- Need to allow only 1 card being picked up after doubling - done
+- And if you split aces, can only hit once more - done 
+    - and if it goes split ace, then 10 - its not blackjack - done 
+- Check if Aces become hard once it HAS to be a 1 ... (i.e. if the Ace being 11 would make it > 21, then it's no longer soft) - done 
+- Add a should surrender csv - done
+- Make surrender being allowed configurable - done 

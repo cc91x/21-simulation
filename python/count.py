@@ -2,8 +2,8 @@
 
 from math import ceil, floor
 
-from gameplayConfig import GameplayConfig as cfg
-from vingtFunctions import load_1d_decision_matrix
+from gameplay_config import GameplayConfig as cfg
+from util_functions import load_1d_decision_matrix
 
 
 class Count():
@@ -16,7 +16,7 @@ class Count():
 
     @property 
     def count(self):
-        if cfg.BALANCED_COUNT:
+        if cfg.CONVERT_TO_TRUE_COUNT:
             true_count_raw = self._running_count / self.num_decks
             return floor(true_count_raw) if self._running_count > 0 else ceil(true_count_raw)
         else:

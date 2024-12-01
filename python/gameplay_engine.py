@@ -2,11 +2,11 @@
     a game of blackjack """
 
 from constants import HandResult
-from customLogging import global_logger as logger
-from dealerHand import DealerHand 
-from decisionEngine import DecisionEngine
-from gameplayConfig import GameplayConfig as cfg
-from playerHand import PlayerHand
+from custom_logging import global_logger as logger
+from dealer_hand import DealerHand 
+from decision_engine import DecisionEngine
+from gameplay_config import GameplayConfig as cfg
+from player_hand import PlayerHand
 
 class GameplayEngine():
 
@@ -33,14 +33,25 @@ class GameplayEngine():
     def _determine_bet_size(self):
         return self._decision_engine.determine_bet_size(self._count)
     
+    def _determine_blackjacks(self, player_hand, dealer_hand):
+        if not player_hand.is_blackjack() and not dealer_hand.is_blackjack():
+            return (False, None)
+        elif player_hand.is_blackjack() and dealer_hand.is_blackjack():
+            return (True, HandResult.PUSH)
+        elif player_hand.is_blackjack():
+            return (True, HandResult.BLACKJACK_WIN)
+        else:
+            return (True, HandResult.LOSE)
+
     def _determine_hand_results(self, player_hands, dealer_hand):
         dealer_score = dealer_hand.get_dealer_score()
         for hand in player_hands:
             hand_score = hand.get_optimal_score()
     
-            if hand.is_blackjack() and not dealer_hand.is_blackjack():
-                result = HandResult.BLACKJACK_WIN
-            elif (not hand.is_blackjack() and dealer_hand.is_blackjack()) or (hand_score > 21) or (dealer_score <= 21 and dealer_score > hand_score):
+            blackjack_exists, blackjack_result = self._determine_blackjacks(hand, dealer_hand)  
+            if blackjack_exists:
+                result = blackjack_result
+            elif (hand_score > 21) or (dealer_score <= 21 and dealer_score > hand_score):
                 result =  HandResult.LOSE 
             elif dealer_score > 21 or hand_score > dealer_score:
                 result = HandResult.WIN 
@@ -59,6 +70,7 @@ class GameplayEngine():
             for hand in player_hands:
                 if self._decision_engine.should_double_down_func(hand, dealer_up_card):
                     hand.double_down()
+                    hand.limit_to_one_hit()
 
     def _play_hand_as_dealer(self, player_hands, dealer_hand):
         dealer_hand.reveal_face_down_card(self._count)
@@ -69,8 +81,9 @@ class GameplayEngine():
 
     def _play_hands_as_player(self, player_hands, dealer_up_card):
         for hand in player_hands:
-            while self._decision_engine.should_player_hit(hand, dealer_up_card):
+            while hand.is_allowed_to_hit and self._decision_engine.should_player_hit(hand, dealer_up_card):
                 hand.deal_card_face_up(self._shoe, self._count, logger)
+                hand.count_hit()
         
     def _split_player_hands_if_applicable(self, player_hands, dealer_up_card):
         should_split = True
@@ -85,6 +98,11 @@ class GameplayEngine():
                     hand1, hand2 = hand.split_hand()
                     hand1.deal_card_face_up(self._shoe, self._count, logger)
                     hand2.deal_card_face_up(self._shoe, self._count, logger)
+                    
+                    if hand1.cards[0].is_ace():
+                        hand1.limit_to_one_hit()
+                        hand2.limit_to_one_hit()
+
                     new_hands.extend([hand1, hand2])
                 else:
                     new_hands.append(hand)
@@ -94,18 +112,21 @@ class GameplayEngine():
         return player_hands
 
     def _surrender_hands_if_applicable(self, player_hands, dealer_hand):
-        dealer_up_card, new_hands = dealer_hand.get_face_up_card(), []
-        
-        for hand in player_hands:
-            if self._decision_engine.should_surrender_func(hand, dealer_up_card):
-                hand.surrender()
-                dealer_hand.reveal_face_down_card(self._count)
-                logger.card(f'Surrendering {hand.get_hand_string()}')
-                self._hand_analyzer.analyze_hand(hand, dealer_up_card, hand.bet_value / 2, self._count)
-            else:
-                new_hands.append(hand)   
-        
-        return new_hands
+        if not cfg.SURRENDER_ALLOWED:
+            return player_hands
+        else:
+            dealer_up_card, new_hands = dealer_hand.get_face_up_card(), []
+            
+            for hand in player_hands:
+                if self._decision_engine.should_surrender_func(hand, dealer_up_card):
+                    hand.surrender()
+                    dealer_hand.reveal_face_down_card(self._count)
+                    logger.card(f'Surrendering {hand.get_hand_string()}')
+                    self._hand_analyzer.analyze_hand(hand, dealer_up_card, hand.bet_value / 2, self._count)
+                else:
+                    new_hands.append(hand)   
+            
+            return new_hands
     
     def _take_insurance_if_applicable(self, player_hands, dealer_up_card):
         player_hand = player_hands[0]

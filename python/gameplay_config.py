@@ -28,6 +28,7 @@ class GameplayConfig():
     DEALER_HIT_SOFT_17 = config.getboolean('RULES', 'DEALER_HIT_SOFT_17')  
     SPLIT_MAX_TIMES = config.getint('RULES', 'SPLIT_MAX_TIMES') 
     DOUBLE_AFTER_SPLIT = config.getboolean('RULES', 'DOUBLE_AFTER_SPLIT')  
+    SURRENDER_ALLOWED = config.getboolean('RULES', 'SURRENDER_ALLOWED')
 
-    BALANCED_COUNT = config.getboolean('COUNTING_STRATEGY', 'BALANCED_COUNT')
+    CONVERT_TO_TRUE_COUNT = config.getboolean('COUNTING_STRATEGY', 'CONVERT_TO_TRUE_COUNT')
     STARTING_COUNT = config.getint('COUNTING_STRATEGY', 'STARTING_COUNT')

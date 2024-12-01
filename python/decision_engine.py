@@ -1,8 +1,8 @@
 """ Class performing all game related player decisions, as configured in csv's"""
 
-from customLogging import global_logger as logger
-from gameplayConfig import GameplayConfig as cfg
-from vingtFunctions import adjust_to_range, do_matrix_lookup_3d, load_1d_decision_matrix, load_3d_decision_matrix
+from custom_logging import global_logger as logger
+from gameplay_config import GameplayConfig as cfg
+from util_functions import adjust_to_range, do_matrix_lookup_3d, load_1d_decision_matrix, load_3d_decision_matrix
 
 
 class DecisionEngine():

@@ -4,7 +4,7 @@ from logging import addLevelName, StreamHandler, Logger, getLogger, Formatter
 from logging.handlers import RotatingFileHandler
 
 from constants import LogLevel
-from gameplayConfig import GameplayConfig as cfg
+from gameplay_config import GameplayConfig as cfg
 
 
 def card_logging_level(self, message, *args, **kwargs):

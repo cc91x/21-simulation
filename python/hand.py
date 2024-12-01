@@ -13,7 +13,6 @@ class Hand():
     def _get_aces_count(self):
         return len(list(filter(lambda x: x.is_ace(), self._cards)))
     
-    
     def contains_ace(self):
         return self._get_aces_count() != 0
 

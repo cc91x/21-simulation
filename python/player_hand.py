@@ -2,15 +2,17 @@
 
 
 from hand import Hand
-from vingtFunctions import calculate_win_amount
+from util_functions import calculate_win_amount
 
 
 class PlayerHand(Hand):
-    def __init__(self, bankroll, bet_value, starter_cards):
+    def __init__(self, bankroll, bet_value, starter_cards, is_split=False):
         super().__init__(starter_cards, 'Player')
         self._bankroll = bankroll
-        self._bet_value = bet_value 
+        self._bet_value = bet_value
+        self._number_hits_allowed = 10 
         self._insurance = False
+        self._is_split = is_split
         bankroll.subtract(bet_value)
 
     @property
@@ -20,12 +22,25 @@ class PlayerHand(Hand):
     @property
     def bet_value(self):
         return self._bet_value
+    
+    @property
+    def is_allowed_to_hit(self):
+        return self._number_hits_allowed > 0
 
     @property
     def insurance(self):
         return self._insurance
     
+    @property 
+    def is_split(self):
+        return self._is_split 
     
+    def limit_to_one_hit(self):
+        self._number_hits_allowed = 1
+
+    def count_hit(self):
+        self._number_hits_allowed -= 1
+
     def double_down(self):
         self._bankroll.subtract(self._bet_value)
         self._bet_value *= 2
@@ -39,10 +54,13 @@ class PlayerHand(Hand):
             win_amount += self._bet_value
 
         return win_amount
+    
+    def is_blackjack(self):
+        return (not self.is_split) and (self.get_optimal_score() == 21) and (len(self.cards) == 2)
 
     def split_hand(self):
-        hand1 = PlayerHand(self._bankroll, self._bet_value, [self._cards[0]])
-        hand2 = PlayerHand(self._bankroll, self._bet_value, [self._cards[1]])
+        hand1 = PlayerHand(self._bankroll, self._bet_value, [self._cards[0]], is_split=True)
+        hand2 = PlayerHand(self._bankroll, self._bet_value, [self._cards[1]], is_split=True)
         return [hand1, hand2]                   
 
     def surrender(self):
