@@ -10,7 +10,8 @@ class DealerHand(Hand):
         self._face_down_card = None
         # self._face_down_card = None if starter_cards == [] else starter_cards[0]
 
-    def deal_card_face_down(self, card):
+    def deal_card_face_down(self, shoe):
+        card = shoe.deal_card()
         self._cards.append(card)
         self._face_down_card = card 
 

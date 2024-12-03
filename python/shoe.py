@@ -34,6 +34,9 @@ class Shoe():
     def num_shuffles(self):
         return self._num_shuffles
     
+    # only used for testing
+    def add_to_front_of_deck(self, card):
+        self._in_shoe.append(card)
 
     def deal_card(self):
         if len(self._in_shoe) == 0:

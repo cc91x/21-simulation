@@ -1,3 +1,5 @@
+""" This file is used mainly for debugging specific hands and scenarios  """
+
 from bankroll import Bankroll
 from card import Card
 from constants import CardRank, Suit
@@ -10,6 +12,7 @@ from gameplay_config import GameplayConfig as cfg
 from gameplay_engine import GameplayEngine
 from player_hand import PlayerHand
 
+# Remember to set the logging level to CARD or DECISION in the config file
 shoe = Shoe(cfg.DECKS_IN_SHOE, cfg.CUT_CARD_RANGE)
 count = Count(cfg.DECKS_IN_SHOE, 0)
 bankroll = Bankroll(0)
@@ -22,10 +25,17 @@ player_card_1 = Card(Suit.SPADE, CardRank.ACE)
 player_card_2 = Card(Suit.HEART, CardRank.ACE)
 dealer_face_up_card = Card(Suit.SPADE, CardRank.THREE)
 dealer_face_down_card = Card(Suit.SPADE, CardRank.KING)
+next_cards_to_deal = [
+    dealer_face_down_card, dealer_face_up_card, Card(Suit.SPADE, CardRank.TWO), 
+    Card(Suit.SPADE, CardRank.FOUR), Card(Suit.SPADE, CardRank.NINE), Card(Suit.SPADE, CardRank.KING), Card(Suit.SPADE, CardRank.JACK)
+]
+
+for card in next_cards_to_deal[::-1]:
+    shoe.add_to_front_of_deck(card)
 
 player_cards = [player_card_1, player_card_2]
 player_hands = [PlayerHand(bankroll, 1, player_cards)]
 dealer_hand = DealerHand([])
-dealer_hand.deal_card_face_down(dealer_face_down_card)
-dealer_hand.deal_card_face_up(dealer_face_up_card, count, logger)
+dealer_hand.deal_card_face_down(shoe)
+dealer_hand.deal_card_face_up(shoe, count, logger)
 game.play_hand(player_hands, dealer_hand)

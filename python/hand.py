@@ -1,6 +1,5 @@
 """ A parent class for PlayerHand and DealerHand classes"""
 
-
 class Hand():
     def __init__(self, cards, hand_type='PLAYER'):
         self._cards = cards
@@ -16,7 +15,8 @@ class Hand():
     def contains_ace(self):
         return self._get_aces_count() != 0
 
-    def deal_card_face_up(self, card, running_count, logger):
+    def deal_card_face_up(self, shoe, running_count, logger):
+      card = shoe.deal_card()
       logger.decision(f'Dealt card to {self._hand_type}: {card.get_card_string()}')
       self.cards.append(card)
       running_count.count_card(card)
