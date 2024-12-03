@@ -23,10 +23,10 @@ class GameplayEngine():
     
     def _deal_opening_cards(self, player_hands, dealer_hand):
         player_hand = player_hands[0]
-        player_hand.deal_card_face_up(self._shoe, self._count, logger)
-        dealer_hand.deal_card_face_up(self._shoe, self._count, logger)
-        player_hand.deal_card_face_up(self._shoe, self._count, logger)
-        dealer_hand.deal_card_face_down(self._shoe)
+        player_hand.deal_card_face_up(self._shoe.deal_card(), self._count, logger)
+        dealer_hand.deal_card_face_up(self._shoe.deal_card(), self._count, logger)
+        player_hand.deal_card_face_up(self._shoe.deal_card(), self._count, logger)
+        dealer_hand.deal_card_face_down(self._shoe.deal_card())
         logger.card(player_hand.get_hand_string())
         logger.card(f'Dealer up card: {dealer_hand.get_face_up_card().get_card_string()}')
 
@@ -76,12 +76,12 @@ class GameplayEngine():
         player_has_under_21 = any(hand.get_optimal_score() <= 21 for hand in player_hands)
 
         while player_has_under_21 and self._decision_engine.should_dealer_hit(dealer_hand):
-            dealer_hand.deal_card_face_up(self._shoe, self._count, logger)
+            dealer_hand.deal_card_face_up(self._shoe.deal_card(), self._count, logger)
 
     def _play_hands_as_player(self, player_hands, dealer_up_card):
         for hand in player_hands:
             while hand.is_allowed_to_hit and self._decision_engine.should_player_hit(hand, dealer_up_card):
-                hand.deal_card_face_up(self._shoe, self._count, logger)
+                hand.deal_card_face_up(self._shoe.deal_card(), self._count, logger)
                 hand.count_hit()
         
     def _split_player_hands_if_applicable(self, player_hands, dealer_up_card):
@@ -95,8 +95,8 @@ class GameplayEngine():
                 if not hand.insurance and self._decision_engine.should_split_func(hand, dealer_up_card):
                     should_split = True
                     hand1, hand2 = hand.split_hand()
-                    hand1.deal_card_face_up(self._shoe, self._count, logger)
-                    hand2.deal_card_face_up(self._shoe, self._count, logger)
+                    hand1.deal_card_face_up(self._shoe.deal_card(), self._count, logger)
+                    hand2.deal_card_face_up(self._shoe.deal_card(), self._count, logger)
                     
                     if hand1.cards[0].is_ace():
                         hand1.limit_to_one_hit()

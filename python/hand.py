@@ -16,8 +16,7 @@ class Hand():
     def contains_ace(self):
         return self._get_aces_count() != 0
 
-    def deal_card_face_up(self, shoe, running_count, logger):
-      card = shoe.deal_card()
+    def deal_card_face_up(self, card, running_count, logger):
       logger.decision(f'Dealt card to {self._hand_type}: {card.get_card_string()}')
       self.cards.append(card)
       running_count.count_card(card)
