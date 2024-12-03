@@ -47,7 +47,7 @@ class LogLevel(Enum):
 
 
 class Suit(Enum):
-    CLUB =  ' C' # '\u2663'
-    DIAMOND = ' D' #'\u2666'
-    HEART = ' H' #'\u2665'
-    SPADE = ' S'#'\u2660'
+    CLUB =  '\u2663' 
+    DIAMOND = '\u2666' 
+    HEART = '\u2665'
+    SPADE = '\u2660'

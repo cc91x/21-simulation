@@ -4,6 +4,7 @@ from shoe import Shoe
 from gameplay_config import GameplayConfig as cfg
 from gameplay_engine import GameplayEngine
 from hand_analyzer import HandAnalyzer
+from util_functions import print_game_configuration
 
 
 if __name__ == '__main__':
@@ -13,6 +14,7 @@ if __name__ == '__main__':
     hand_analyzer = HandAnalyzer()
     game = GameplayEngine(bankroll, count, shoe, hand_analyzer)
 
+    print_game_configuration()
     shoe.shuffle()
     game.play_blackjack()
     hand_analyzer.display_info()

@@ -3,6 +3,7 @@
 from csv import reader
 
 from constants import HandResult
+from custom_logging import global_logger as logger
 from gameplay_config import GameplayConfig as cfg
 
 
@@ -67,3 +68,9 @@ def load_3d_decision_matrix(path):
         matrix[count] = d
     
     return matrix
+
+def print_game_configuration():
+    logger.summary(f'Starting simulation using strateg: {cfg.STRATEGY_NAME}')
+    logger.summary(f'Game has {cfg.DECKS_IN_SHOE} decks and cut card point is in range: {cfg.CUT_CARD_RANGE}')
+    logger.summary(f'Will play the minimum of {cfg.SHUFFLES_TO_PLAY} shuffles and {cfg.HANDS_TO_PLAY} hands \n')
+

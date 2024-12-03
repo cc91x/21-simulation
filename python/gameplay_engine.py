@@ -142,7 +142,7 @@ class GameplayEngine():
             self._shoe.num_shuffles - 1) < cfg.SHUFFLES_TO_PLAY: 
             
             if self._shoe.should_reshuffle():
-                logger.summary(f'''Reshuffling self._shoe. Dealt: {len(self._shoe.dealt)}/{self._shoe.num_cards} cards. 
+                logger.card(f'''Reshuffling self._shoe. Dealt: {len(self._shoe.dealt)}/{self._shoe.num_cards} cards. 
                                Total hands played: {self._hand_analyzer.hands_played}. Bankroll: {self._bankroll.balance}''')
                 self._shoe.shuffle()
                 self._count.reset()

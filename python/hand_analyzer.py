@@ -70,7 +70,8 @@ class HandAnalyzer():
     def _display_summary_statistics(self):
         logger.summary('')
         ending_pnl = sum(bal for _, bal in self._hands_by_count.values())
-        logger.summary(f'Simulation Complete. Played {self._hands_played} hands. Ending Pnl is {ending_pnl}.')
+        symbol = '+' if ending_pnl >= 0 else ''
+        logger.summary(f'Simulation Complete. Played {self._hands_played} hands. Final Pnl is {symbol}{ending_pnl} units')
         logger.summary(f'Used strategy: {cfg.STRATEGY_NAME}')
         
     def _format_aces_pair(self, val):
