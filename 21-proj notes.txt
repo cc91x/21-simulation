@@ -190,3 +190,17 @@ claude is suggesting using underscores instead of camelcase for file names ... I
 - Check if Aces become hard once it HAS to be a 1 ... (i.e. if the Ace being 11 would make it > 21, then it's no longer soft) - done 
 - Add a should surrender csv - done
 - Make surrender being allowed configurable - done 
+
+
+# Latest bug
+2024-12-02 20:10:21,367 - CARD - Player [[A♥][A♣]]
+2024-12-02 20:10:21,368 - CARD - Dealer up card: [3♣]
+2024-12-02 20:10:21,368 - CARD - Player hit decision is True with Player [[A♥][2♣]] and dealer up card [3♣]
+2024-12-02 20:10:21,368 - CARD - Player hit decision is True with Player [[A♣][4♠]] and dealer up card [3♣]
+2024-12-02 20:10:21,368 - CARD - Hand Complete. Result for player: WIN with Player [[A♥][2♣][9♣]] and Dealer [[3♣][K♠][J♣]]
+2024-12-02 20:10:21,368 - CARD - Hand Complete. Result for player: WIN with Player [[A♣][4♠][K♣]] and Dealer [[3♣][K♠][J♣]]
+2024-12-02 20:10:21,368 - CARD - Hands played: 2 PNL so far: 1
+2024-12-02 20:10:21,368 - SUMMARY - END OF GAME ANALYSIS 
+
+# This logic needs to be looked at - HAND STATISTICS BY PAIR TOTAL vs DEALER UP CARD
+

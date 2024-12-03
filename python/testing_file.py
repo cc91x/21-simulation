@@ -21,7 +21,14 @@ dealer_hand = DealerHand(dealer_cards)
 game = GameplayEngine(logger, count, deck)
 res = game.determine_hand_results(player_hands, dealer_hand)
 
-print(res)
 
 
+player_hands = [PlayerHand(self._bankroll, bet_size, [])]
+dealer_hand = DealerHand([])
+
+
+GameplayEngine.play_hand(player_hands, dealer_hand)
+
+
+GameplayEngine.play_hand()
 

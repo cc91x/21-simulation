@@ -59,7 +59,6 @@ class GameplayEngine():
                 result = HandResult.PUSH
     
             logger.card(f'Hand Complete. Result for player: {result.name} with {hand.get_hand_string()} and {dealer_hand.get_hand_string()}')
-            
             hand_win_amount = hand.get_win_amount(result, dealer_hand.is_blackjack())
             hand.bankroll.add(hand_win_amount)
             hand_pnl = hand_win_amount - hand.bet_value
@@ -70,7 +69,7 @@ class GameplayEngine():
             for hand in player_hands:
                 if self._decision_engine.should_double_down_func(hand, dealer_up_card):
                     hand.double_down()
-                    hand.limit_to_one_hit()
+                    hand.limit_to_one_hit()        
 
     def _play_hand_as_dealer(self, player_hands, dealer_hand):
         dealer_hand.reveal_face_down_card(self._count)
@@ -134,6 +133,23 @@ class GameplayEngine():
             logger.card(f'Taking insurance for {player_hand.bet_value / 2}')
             player_hand.take_insurance()
 
+        
+    def play_hand(self, player_hands, dealer_hand):
+        """ Logic to run a hand  """
+
+        dealer_up_card = dealer_hand.get_face_up_card()
+        self._take_insurance_if_applicable(player_hands, dealer_up_card)
+
+        if not self._check_for_blackjacks(player_hands, dealer_hand):
+            player_hands = self._split_player_hands_if_applicable(player_hands, dealer_up_card)
+                
+            player_hands = self._surrender_hands_if_applicable(player_hands, dealer_hand)
+            self._double_down_on_hands_if_applicable(player_hands, dealer_up_card)
+            self._play_hands_as_player(player_hands, dealer_up_card)
+            self._play_hand_as_dealer(player_hands, dealer_hand)
+
+        self._determine_hand_results(player_hands, dealer_hand)
+        logger.card(f'Hands played: {self._hand_analyzer.hands_played} PNL so far: {self._bankroll.balance}')
 
     def play_blackjack(self):
         """ The main gameplay logic """
@@ -149,20 +165,6 @@ class GameplayEngine():
 
             bet_size = self._determine_bet_size()
             player_hands = [PlayerHand(self._bankroll, bet_size, [])]
-            dealer_hands = DealerHand([])
-
-            self._deal_opening_cards(player_hands, dealer_hands)
-            dealer_up_card = dealer_hands.get_face_up_card()
-
-            self._take_insurance_if_applicable(player_hands, dealer_up_card)
-
-            if not self._check_for_blackjacks(player_hands, dealer_hands):
-                player_hands = self._split_player_hands_if_applicable(player_hands, dealer_up_card)
-                
-                player_hands = self._surrender_hands_if_applicable(player_hands, dealer_hands)
-                self._double_down_on_hands_if_applicable(player_hands, dealer_up_card)
-                self._play_hands_as_player(player_hands, dealer_up_card)
-                self._play_hand_as_dealer(player_hands, dealer_hands)
-
-            self._determine_hand_results(player_hands, dealer_hands)
-            logger.card(f'Hands played: {self._hand_analyzer.hands_played} PNL so far: {self._bankroll.balance}')
+            dealer_hand = DealerHand([])
+            self._deal_opening_cards(player_hands, dealer_hand)
+            self.play_hand(player_hands, dealer_hand)
