@@ -59,6 +59,7 @@ class PlayerHand(Hand):
         return (not self.is_split) and (self.get_optimal_score() == 21) and (len(self.cards) == 2)
 
     def split_hand(self):
+        self._bankroll.add(self._bet_value)
         hand1 = PlayerHand(self._bankroll, self._bet_value, [self._cards[0]], is_split=True)
         hand2 = PlayerHand(self._bankroll, self._bet_value, [self._cards[1]], is_split=True)
         return [hand1, hand2]                   

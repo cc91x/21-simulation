@@ -23,11 +23,11 @@ shoe.shuffle()
 # Input specific hand cards here
 player_card_1 = Card(Suit.SPADE, CardRank.ACE)
 player_card_2 = Card(Suit.HEART, CardRank.ACE)
-dealer_face_up_card = Card(Suit.SPADE, CardRank.THREE)
-dealer_face_down_card = Card(Suit.SPADE, CardRank.KING)
+dealer_face_up_card = Card(Suit.SPADE, CardRank.FOUR)
+dealer_face_down_card = Card(Suit.SPADE, CardRank.TEN)
 next_cards_to_deal = [
-    dealer_face_down_card, dealer_face_up_card, Card(Suit.SPADE, CardRank.TWO), 
-    Card(Suit.SPADE, CardRank.FOUR), Card(Suit.SPADE, CardRank.NINE), Card(Suit.SPADE, CardRank.KING), Card(Suit.SPADE, CardRank.JACK)
+    dealer_face_down_card, dealer_face_up_card, Card(Suit.SPADE, CardRank.SEVEN), 
+    Card(Suit.SPADE, CardRank.SIX), Card(Suit.SPADE, CardRank.NINE), Card(Suit.SPADE, CardRank.JACK), Card(Suit.SPADE, CardRank.JACK)
 ]
 
 for card in next_cards_to_deal[::-1]:

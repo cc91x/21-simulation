@@ -68,6 +68,7 @@ class GameplayEngine():
         if len(player_hands) == 1 or cfg.DOUBLE_AFTER_SPLIT:
             for hand in player_hands:
                 if self._decision_engine.should_double_down_func(hand, dealer_up_card):
+                    logger.card(f'Doubling down for with {hand.get_hand_string()} and dealer up card {dealer_up_card.get_card_string()}')
                     hand.double_down()
                     hand.limit_to_one_hit()        
 
@@ -94,15 +95,19 @@ class GameplayEngine():
             for hand in player_hands:
                 if not hand.insurance and self._decision_engine.should_split_func(hand, dealer_up_card):
                     should_split = True
+                    logger.card(f'Splitting hand {hand.get_hand_string()}')
                     hand1, hand2 = hand.split_hand()
-                    hand1.deal_card_face_up(self._shoe, self._count, logger)
-                    hand2.deal_card_face_up(self._shoe, self._count, logger)
                     
                     if hand1.cards[0].is_ace():
                         hand1.limit_to_one_hit()
                         hand2.limit_to_one_hit()
 
+                    hand1.deal_card_face_up(self._shoe, self._count, logger)
+                    hand1.count_hit()
+                    hand2.deal_card_face_up(self._shoe, self._count, logger)
+                    hand2.count_hit()
                     new_hands.extend([hand1, hand2])
+                
                 else:
                     new_hands.append(hand)
             

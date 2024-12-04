@@ -204,14 +204,6 @@ claude is suggesting using underscores instead of camelcase for file names ... I
 
 # This logic needs to be looked at - HAND STATISTICS BY PAIR TOTAL vs DEALER UP CARD
 
-# Another bug here
-2024-12-02 23:30:39,145 - CARD - Player hit decision is False with Player [[A S][Q C]] and dealer up card [3 S]
-2024-12-02 23:30:39,146 - CARD - Player hit decision is True with Player [[A H][4 H]] and dealer up card [3 S]
-2024-12-02 23:30:39,148 - CARD - Hand Complete. Result for player: WIN with Player [[A S][Q C]] and Dealer [[K S][3 S][J D]]
-2024-12-02 23:30:39,148 - CARD - Hand Complete. Result for player: WIN with Player [[A H][4 H][Q H]] and Dealer [[K S][3 S][J D]]
-2024-12-02 23:30:39,149 - CARD - Hands played: 2 PNL so far: 1
-
-
 # 3 bugs detected  
 - Splitting example above, total pnl is messed up 
 - splitting aces should only allow one more hit -> and check double down  
@@ -220,5 +212,26 @@ claude is suggesting using underscores instead of camelcase for file names ... I
 Also, I should consider adding an add_to_front (or end technically) method to the shoe class, which can be used in testing
 -> and then potentially revert everything done with shoe.deal_card() as a parameter 
 
+# Another bug here - where does the 3rd hand come from...?
+Hands played: 9 PNL so far: 3.5
+2024-12-03 23:06:01,708 - CARD - Player [[A S][A D]]
+2024-12-03 23:06:01,709 - CARD - Dealer up card: [4 H]
+2024-12-03 23:06:01,711 - CARD - Doubling down for with Player [[A S][7 C]] and dealer up card [4 H]
+2024-12-03 23:06:01,712 - CARD - Doubling down for with Player [[A D][6 H]] and dealer up card [4 H]
+2024-12-03 23:06:01,713 - CARD - Player hit decision is False with Player [[A S][7 C]] and dealer up card [4 H]
+2024-12-03 23:06:01,714 - CARD - Player hit decision is True with Player [[A D][6 H]] and dealer up card [4 H]
+2024-12-03 23:06:01,714 - CARD - Hand Complete. Result for player: WIN with Player [[A S][7 C]] and Dealer [[4 H][10 H][J H]]
+2024-12-03 23:06:01,715 - CARD - Hand Complete. Result for player: WIN with Player [[A D][6 H][9 H]] and Dealer [[4 H][10 H][J H]]
+2024-12-03 23:06:01,716 - CARD - Hand Complete. Result for player: WIN with Player [[A C][10 H]] and Dealer [[4 H][10 H][J H]]
+2024-12-03 23:06:01,717 - CARD - Hands played: 12 PNL so far: 8.5
+-> Note the 10H appears twice... which would e extremely rare given that this was with 2 deck (maybe I should do one deck for testing?)
+-> Tried replicating in testing_file and it's not working 
 
+
+Open bugs - 
+- print formatting for: Total hands played: 9. Bankroll: 4.5
+- the above logs
+    - still really want to figure out what happened there ... maybe the previous hands don't get cleared? or something ... didn't appear when I retried 
+- ending summary skewed hand amounts 
+- when I remove the surrender ability, pnl starts to go negative. perhaps my surrender logic is too forgiving / early
 
