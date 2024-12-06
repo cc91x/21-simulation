@@ -1,8 +1,6 @@
 """ A class representing the player's hand """
 
-
 from hand import Hand
-from util_functions import calculate_win_amount
 
 
 class PlayerHand(Hand):
@@ -11,7 +9,7 @@ class PlayerHand(Hand):
         self._bankroll = bankroll
         self._bet_value = bet_value
         self._number_hits_allowed = 10 
-        self._insurance = False
+        self._has_insurance = False
         self._is_split = is_split
         self._is_surrendered = False
         bankroll.subtract(bet_value)
@@ -29,8 +27,8 @@ class PlayerHand(Hand):
         return (not self._is_surrendered) and (self._number_hits_allowed > 0)
 
     @property
-    def insurance(self):
-        return self._insurance
+    def has_insurance(self):
+        return self._has_insurance
     
     @property 
     def is_split(self):
@@ -53,14 +51,6 @@ class PlayerHand(Hand):
     def get_initial_deal(self):
         return self._cards[:2]
 
-    # this should not be here ... should be a util function probably
-    def get_win_amount(self, result, does_dealer_have_blackjack):
-        win_amount = calculate_win_amount(result, self._bet_value)
-        if does_dealer_have_blackjack and self._insurance:
-            win_amount += self._bet_value
-
-        return win_amount
-    
     def is_blackjack(self):
         return (not self.is_split) and (self.get_optimal_score() == 21) and (len(self.cards) == 2)
 

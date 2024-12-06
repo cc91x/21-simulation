@@ -16,7 +16,7 @@ def adjust_to_range(num, val_range):
     else:
         return num
     
-def calculate_win_amount(result, bet_value):
+def get_payout_from_bet(result, bet_value):
         if result == HandResult.WIN:
             return bet_value * 2
         elif result == HandResult.BLACKJACK_WIN:
@@ -27,12 +27,11 @@ def calculate_win_amount(result, bet_value):
              return bet_value * 0.5 
         else:
              return 0
-
-# TODO: this        
-ef get_win_amount(self, result, hand, does_dealer_have_blackjack):
-        win_amount = calculate_win_amount(result, self._bet_value)
-        if does_dealer_have_blackjack and hand. insurance:
-            win_amount += self._bet_value
+      
+def get_win_amount(result, hand, does_dealer_have_blackjack):
+        win_amount = get_payout_from_bet(result, hand.bet_value)
+        if does_dealer_have_blackjack and hand.has_insurance:
+            win_amount += hand._bet_value
 
         return win_amount
         

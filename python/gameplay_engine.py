@@ -7,6 +7,7 @@ from dealer_hand import DealerHand
 from decision_engine import DecisionEngine
 from gameplay_config import GameplayConfig as cfg
 from player_hand import PlayerHand
+from util_functions import get_win_amount
 
 class GameplayEngine():
 
@@ -59,9 +60,11 @@ class GameplayEngine():
                 result = HandResult.WIN 
             else:
                 result = HandResult.PUSH
-    
+            
+            if len(player_hands) >= 3:
+                logger.summary(f'Hand Complete. Result for player: {result.name} with {hand.get_hand_string()} and {dealer_hand.get_hand_string()}')    
             logger.card(f'Hand Complete. Result for player: {result.name} with {hand.get_hand_string()} and {dealer_hand.get_hand_string()}')
-            hand_win_amount = hand.get_win_amount(result, dealer_hand.is_blackjack())
+            hand_win_amount = get_win_amount(result, hand, dealer_hand.is_blackjack())
             hand.bankroll.add(hand_win_amount)
             hand_pnl = hand_win_amount - hand.bet_value
             self._hand_analyzer.analyze_hand(hand, dealer_hand.get_face_up_card(), hand_pnl, self._count)
@@ -70,7 +73,9 @@ class GameplayEngine():
         if len(player_hands) == 1 or cfg.DOUBLE_AFTER_SPLIT:
             for hand in player_hands:
                 if not hand.is_surrendered and self._decision_engine.should_double_down_func(hand, dealer_up_card):
-                    logger.card(f'Doubling down for with {hand.get_hand_string()} and dealer up card {dealer_up_card.get_card_string()}')
+                    logger.card(f'Doubling down with {hand.get_hand_string()} and dealer up card {dealer_up_card.get_card_string()}')
+                    if len(player_hands) >= 3:
+                        logger.summary(f'Doubling down with {hand.get_hand_string()} and dealer up card {dealer_up_card.get_card_string()}')
                     hand.double_down()
                     hand.limit_to_one_hit()        
 
@@ -83,7 +88,7 @@ class GameplayEngine():
 
     def _play_hands_as_player(self, player_hands, dealer_up_card):
         for hand in player_hands:
-            while hand.is_allowed_to_hit and self._decision_engine.should_player_hit(hand, dealer_up_card):
+            while hand.is_allowed_to_hit and self._decision_engine.should_player_hit(hand, dealer_up_card, len(player_hands) >= 3):
                 hand.deal_card_face_up(self._shoe, self._count, logger)
                 hand.count_hit()
         
@@ -95,7 +100,7 @@ class GameplayEngine():
             should_split = False
 
             for hand in player_hands:
-                if not hand.insurance and self._decision_engine.should_split_func(hand, dealer_up_card):
+                if not hand.has_insurance and self._decision_engine.should_split_func(hand, dealer_up_card):
                     should_split = True
                     logger.card(f'Splitting hand {hand.get_hand_string()}')
                     hand1, hand2 = hand.split_hand()
@@ -128,7 +133,6 @@ class GameplayEngine():
                     hand.surrender()
                     dealer_hand.reveal_face_down_card(self._count)
                     logger.card(f'Surrendering {hand.get_hand_string()}')
-                    # self._hand_analyzer.analyze_hand(hand, dealer_up_card, hand.bet_value / 2, self._count)
     
     def _take_insurance_if_applicable(self, player_hands, dealer_up_card):
         player_hand = player_hands[0]
@@ -161,8 +165,8 @@ class GameplayEngine():
             self._shoe.num_shuffles - 1) < cfg.SHUFFLES_TO_PLAY: 
             
             if self._shoe.should_reshuffle():
-                logger.card(f'''Reshuffling self._shoe. Dealt: {len(self._shoe.dealt)}/{self._shoe.num_cards} cards. 
-                               Total hands played: {self._hand_analyzer.hands_played}. Bankroll: {self._bankroll.balance}''')
+                logger.card(f'Reshuffling self._shoe. Dealt: {len(self._shoe.dealt)}/{self._shoe.num_cards} cards.')
+                logger.card(f'Total hands played: {self._hand_analyzer.hands_played}. Bankroll: {self._bankroll.balance}')
                 self._shoe.shuffle()
                 self._count.reset()
 
