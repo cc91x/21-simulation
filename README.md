@@ -68,6 +68,7 @@ https://www.blackjackapprenticeship.com/blackjack-strategy-charts/
 Blackjack calculators  
 https://outplayed.com/blackjack-strategy-calculator  
 https://wizardofodds.com/games/blackjack/strategy/calculator/  
+https://wizardofodds.com/games/blackjack/calculator/ - this is for determining the house's edge, excellent for debugging here
 
 Advanced strategy sources  
 https://www.qfit.com/card-counting.htm  

@@ -19,17 +19,22 @@ def adjust_to_range(num, val_range):
 def calculate_win_amount(result, bet_value):
         if result == HandResult.WIN:
             return bet_value * 2
-
         elif result == HandResult.BLACKJACK_WIN:
             return bet_value + (bet_value * cfg.BLACKJACK_PAYOUT)
-        
         elif result == HandResult.PUSH:
             return bet_value
-        
         elif result == HandResult.SURRENDER:
              return bet_value * 0.5 
         else:
              return 0
+
+# TODO: this        
+ef get_win_amount(self, result, hand, does_dealer_have_blackjack):
+        win_amount = calculate_win_amount(result, self._bet_value)
+        if does_dealer_have_blackjack and hand. insurance:
+            win_amount += self._bet_value
+
+        return win_amount
         
 def do_matrix_lookup_3d(matrix, count, row, col):
     top_layer = matrix.get(adjust_to_range(count, matrix.keys()), {})

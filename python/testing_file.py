@@ -21,9 +21,9 @@ game = GameplayEngine(bankroll, count, shoe, hand_analyzer)
 shoe.shuffle()
 
 # Input specific hand cards here
-player_card_1 = Card(Suit.SPADE, CardRank.ACE)
-player_card_2 = Card(Suit.HEART, CardRank.ACE)
-dealer_face_up_card = Card(Suit.SPADE, CardRank.FOUR)
+player_card_1 = Card(Suit.SPADE, CardRank.TEN)
+player_card_2 = Card(Suit.HEART, CardRank.FIVE)
+dealer_face_up_card = Card(Suit.SPADE, CardRank.TEN)
 dealer_face_down_card = Card(Suit.SPADE, CardRank.TEN)
 next_cards_to_deal = [
     dealer_face_down_card, dealer_face_up_card, Card(Suit.SPADE, CardRank.SEVEN), 

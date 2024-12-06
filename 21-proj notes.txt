@@ -235,3 +235,29 @@ Open bugs -
 - ending summary skewed hand amounts 
 - when I remove the surrender ability, pnl starts to go negative. perhaps my surrender logic is too forgiving / early
 
+wizard of odds calculator has it at let's say. .321% edge for dealer 
+.321 / 2 = .16
+
+so 50.16 vs 49.84 
+so after 100000 hands, it would be 
+100000 * (2) * (.5016) for dealer
+(100000 * (2) * (.4984)) - 100000 for player = -320 
+
+formula for expected profit is (num hands - (num hands * (1 + house edge as %)) 
+500k hands would be below,
+500000  - (500000 * (1 + .00321)) = -1605 and we're getting more like -500 
+
+using https://www.blackjackapprenticeship.com/blackjack-calculator/, once we go up to 4 decks, it seems to get really accurate
+
+Goes from negative without surrender to +9k ... which implies 54% house edge. So something's definitely off
+I think I should make SURRENDER part of the hand result enum -> it's already there
+Whatever I just did ... seems to have worked 
+    -> test fully, and move the calculate_win_amount() func to utilities
+
+
+
+
+
+
+
+

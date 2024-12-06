@@ -13,6 +13,7 @@ class PlayerHand(Hand):
         self._number_hits_allowed = 10 
         self._insurance = False
         self._is_split = is_split
+        self._is_surrendered = False
         bankroll.subtract(bet_value)
 
     @property
@@ -25,7 +26,7 @@ class PlayerHand(Hand):
     
     @property
     def is_allowed_to_hit(self):
-        return self._number_hits_allowed > 0
+        return (not self._is_surrendered) and (self._number_hits_allowed > 0)
 
     @property
     def insurance(self):
@@ -35,6 +36,10 @@ class PlayerHand(Hand):
     def is_split(self):
         return self._is_split 
     
+    @property 
+    def is_surrendered(self):
+        return self._is_surrendered 
+
     def limit_to_one_hit(self):
         self._number_hits_allowed = 1
 
@@ -48,6 +53,7 @@ class PlayerHand(Hand):
     def get_initial_deal(self):
         return self._cards[:2]
 
+    # this should not be here ... should be a util function probably
     def get_win_amount(self, result, does_dealer_have_blackjack):
         win_amount = calculate_win_amount(result, self._bet_value)
         if does_dealer_have_blackjack and self._insurance:
@@ -65,7 +71,7 @@ class PlayerHand(Hand):
         return [hand1, hand2]                   
 
     def surrender(self):
-        self._bankroll.add(self._bet_value / 2)
+        self._is_surrendered = True
 
     def take_insurance(self):
         self._insurance = True
