@@ -1,5 +1,7 @@
 """ A class for processing the results throughout the simulation """
 
+from datetime import datetime
+
 from custom_logging import global_logger as logger
 from gameplay_config import GameplayConfig as cfg
 from hand import Hand
@@ -9,6 +11,7 @@ HANDS_PLAYED = '# Hands'
 PNL = 'PNL'
 DASH = '-'
 FIRST_COL_OFFSET = 4
+FIRST_COL_OFFSET_ACES = 5
 
 
 class HandAnalyzer():
@@ -18,12 +21,17 @@ class HandAnalyzer():
         self._hands_by_cards_aces = {}
         self._hands_by_count = {}
         self._hands_played = 0
+        self._start_time = datetime.now()
 
     @property
     def hands_played(self):
         return self._hands_played
+    
+    def _calculate_player_edge(self, total_pnl):
+        edge = ((total_pnl + self._hands_played) / self._hands_played) - 1
+        return round(edge * 100, 2) 
      
-    def _display_card_based_logging(self, matrix, col_prefix_func):
+    def _display_card_based_logging(self, matrix, column_prefix_func, header_column_offset):
         max_pnl_str, max_hand_str = len(PNL), len(HANDS_PLAYED)
         for _, d in matrix.items():
             for hand, pnl in d.values():
@@ -32,9 +40,9 @@ class HandAnalyzer():
 
         col_width = max_pnl_str + max_hand_str + 3
         
-        header_1_str = ' ' * FIRST_COL_OFFSET
-        header_2_str = ' ' * FIRST_COL_OFFSET
-        dash_str = '-' * (FIRST_COL_OFFSET + 1) 
+        header_1_str = ' ' * header_column_offset
+        header_2_str = ' ' * header_column_offset
+        dash_str = '-' * (header_column_offset + 1) 
         for i in range(2, 12):
             header_1_str += f' |{str(i).center(col_width - 1)}'
             header_2_str += f' | {HANDS_PLAYED.rjust(max_hand_str)} {PNL.rjust(max_pnl_str)}'
@@ -46,7 +54,7 @@ class HandAnalyzer():
     
         for pair_val in self._min_range(matrix.keys()):
             results_by_dealer_card = matrix.get(pair_val, {})
-            row_str = col_prefix_func(pair_val)
+            row_str = column_prefix_func(pair_val)
             for dealer_card in range(2, 12):
                 hands_played, pnl = results_by_dealer_card.get(dealer_card, (0, 0))
                 row_str += f' | {str(hands_played).rjust(max_hand_str)} {str(pnl).rjust(max_pnl_str)}'
@@ -69,13 +77,19 @@ class HandAnalyzer():
 
     def _display_summary_statistics(self):
         logger.summary('')
-        ending_pnl = sum(bal for _, bal in self._hands_by_count.values())
-        symbol = '+' if ending_pnl >= 0 else ''
-        logger.summary(f'Simulation Complete. Played {self._hands_played} hands. Final Pnl is {symbol}{ending_pnl} units')
+        total_pnl = self._get_total_pnl()
+        player_edge_pct = self._calculate_player_edge(total_pnl)
+        symbol = '+' if total_pnl >= 0 else ''
+
+        logger.summary(f'Simulation Complete. Played {self._hands_played} hands. Final Pnl is {symbol}{total_pnl} units')
+        logger.summary(f'Player edge in this simulation: {player_edge_pct}%')
         logger.summary(f'Used strategy: {cfg.STRATEGY_NAME}')
         
+    def _get_total_pnl(self):
+        return sum(bal for _, bal in self._hands_by_count.values())
+    
     def _format_aces_pair(self, val):
-        return f'A,{val}:' 
+        return f'A,{val}:'.rjust(5) 
 
     def _format_pair(self, val):
         return f'{str(val).rjust(3)}:'
@@ -113,12 +127,38 @@ class HandAnalyzer():
         if len(self._hands_by_cards_aces) > 0: 
             logger.summary('')
             logger.summary('HAND STATISTICS BY ACE, CARD vs DEALER UP CARD')
-            self._display_card_based_logging(self._hands_by_cards_aces, self._format_aces_pair)
+            self._display_card_based_logging(self._hands_by_cards_aces, self._format_aces_pair, FIRST_COL_OFFSET_ACES)
 
         if len(self._hands_by_cards) > 0:
             logger.summary('')
             logger.summary('HAND STATISTICS BY PAIR TOTAL vs DEALER UP CARD')
-            self._display_card_based_logging(self._hands_by_cards, self._format_pair)
+            self._display_card_based_logging(self._hands_by_cards, self._format_pair, FIRST_COL_OFFSET)
 
         self._display_count_based_logging()
         self._display_summary_statistics()  
+
+    def save_simulation_results(self):
+        endtime = datetime.now()
+        duration = endtime - self._start_time
+        rows = [
+            f'Finished running simulation at {endtime.strftime("%Y-%m-%d %H:%M:%S")}',
+            f'Simulation duration: {int(duration.total_seconds() // 60)}m{int(duration.total_seconds() % 60)}s{int(duration.microseconds // 1000)}ms',
+            f'Hands Played: {self._hands_played}',
+            f'Player edge: {self._calculate_player_edge(self._get_total_pnl())}%',
+            f'Strategy: {cfg.STRATEGY_NAME}',
+            '-- Game Rules -- ',
+            f'DECKS_IN_SHOE={cfg.DECKS_IN_SHOE}',
+            f'CUT_CARD_RANGE={cfg.CUT_CARD_RANGE}',
+            f'BLACKJACK_PAYOUT={cfg.BLACKJACK_PAYOUT}',
+            f'DEALER_HIT_SOFT_17={cfg.DEALER_HIT_SOFT_17}',
+            f'SPLIT_MAX_TIMES={cfg.SPLIT_MAX_TIMES}',
+            f'SURRENDER_ALLOWED={cfg.SURRENDER_ALLOWED}',
+            f'CONVERT_TO_TRUE_COUNT={cfg.CONVERT_TO_TRUE_COUNT}',
+            f'STARTING_COUNT={cfg.STARTING_COUNT}'
+        ]
+
+        with open("../results/simulation_results.txt", "a") as f:
+            for row in rows:
+                f.write(row)
+                f.write('\n')
+            f.write('\n\n')

@@ -244,6 +244,10 @@ so after 100000 hands, it would be
 (100000 * (2) * (.4984)) - 100000 for player = -320 
 
 formula for expected profit is (num hands - (num hands * (1 + house edge as %)) 
+    - profit would be num hands - (num hands * (1 + house edge %)) = expected profit 
+    solving for house edge 
+    ((expected profit + num hands) / num hands) - 1 = house edge %
+
 500k hands would be below,
 500000  - (500000 * (1 + .00321)) = -1605 and we're getting more like -500 
 
@@ -273,6 +277,31 @@ Whatever I just did ... seems to have worked
 2024-12-05 23:25:36,960 - SUMMARY - Hand Complete. Result for player: WIN with Player [[A H][10 D]] and Dealer [[6 S][8 H][10 S]]
 2024-12-05 23:25:36,962 - SUMMARY - Hand Complete. Result for player: WIN with Player [[A C][6 D]] and Dealer [[6 S][8 H][10 S]]
 
+-- the latest
+2024-12-06 18:09:48,208 - SUMMARY - Splitting hand Player [[A♦][A♥]]
+2024-12-06 18:09:48,208 - SUMMARY - Doubling down with Player [[A♥][6♦]] and dealer up card [3♥]
+2024-12-06 18:09:48,208 - SUMMARY - Doubling down with Player [[A♦][6♣]] and dealer up card [3♥]
+2024-12-06 18:09:48,208 - SUMMARY - Player hit decision is True with Player [[A♥][6♦]] and dealer up card [3♥]
+2024-12-06 18:09:48,208 - SUMMARY - Player hit decision is True with Player [[A♦][6♣]] and dealer up card [3♥]
+2024-12-06 18:09:48,209 - SUMMARY - Hand Complete. Result for player: LOSE with Player [[A♥][6♦][3♠]] and Dealer [[3♥][8♣][J♦]]
+2024-12-06 18:09:48,209 - SUMMARY - Hand Complete. Result for player: LOSE with Player [[A♦][6♣][5♥]] and Dealer [[3♥][8♣][J♦]]
+2024-12-06 18:09:48,209 - SUMMARY - Hand Complete. Result for player: PUSH with Player [[A♥][K♣]] and Dealer [[3♥][8♣][J♦]]
 
 
+# Open bugs 
+- the above logs with the split aces becoming three
+    - still really want to figure out what happened there ... maybe the previous hands don't get cleared? or something ... didn't appear when I retried
+    - This looks to be no problem... when I add my printing logic, everything looks good. 
+    - There was a bug with hitting a card after splitting aces, then doubling down, but now fixed.
+- make the end of game printing be dependent on spacing for the longest num # value in the set -> actually already done 
+# Print ROI -> done 
+# Should I do something to save run results in another results log file? 
+    - something like "ran x hands, total pnl y, player edge / house edge is %, then these are the stats: 
+    - not a bad idea
+# NEW HYPER EDGE CASE: When player doubles down after splitting aces, then getting dealt a card, despite not being able to hit again ... will leave it
+- add duration -> done 
+
+# TODO 
+Update readme again
+Add a Player edge % return instead of PNL in the logs?
 

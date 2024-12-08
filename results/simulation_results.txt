@@ -1,0 +1,114 @@
+# This file contains records of past simulations and their parameters
+
+Finished running simulation at 2024-12-07 17:44:35
+Simulation duration: 0m9s80ms
+Hands Played: 300000
+Player edge: -0.39%
+Strategy: basic-strategy
+-- Game Rules -- 
+DECKS_IN_SHOE=4
+CUT_CARD_RANGE=[55, 60]
+BLACKJACK_PAYOUT=1.5
+DEALER_HIT_SOFT_17=False
+SPLIT_MAX_TIMES=3
+SURRENDER_ALLOWED=False
+CONVERT_TO_TRUE_COUNT=True
+STARTING_COUNT=0
+
+
+Finished running simulation at 2024-12-07 18:08:52
+Simulation duration: 0m15s237ms
+Hands Played: 500000
+Player edge: 0.09%
+Strategy: hi-lo
+-- Game Rules -- 
+DECKS_IN_SHOE=6
+CUT_CARD_RANGE=[55, 60]
+BLACKJACK_PAYOUT=1.5
+DEALER_HIT_SOFT_17=False
+SPLIT_MAX_TIMES=3
+SURRENDER_ALLOWED=False
+CONVERT_TO_TRUE_COUNT=True
+STARTING_COUNT=0
+
+
+Finished running simulation at 2024-12-07 18:10:09
+Simulation duration: 0m15s632ms
+Hands Played: 500000
+Player edge: -0.22%
+Strategy: hi-lo
+-- Game Rules -- 
+DECKS_IN_SHOE=6
+CUT_CARD_RANGE=[55, 60]
+BLACKJACK_PAYOUT=1.5
+DEALER_HIT_SOFT_17=False
+SPLIT_MAX_TIMES=3
+SURRENDER_ALLOWED=False
+CONVERT_TO_TRUE_COUNT=True
+STARTING_COUNT=0
+
+
+Finished running simulation at 2024-12-07 18:11:02
+Simulation duration: 0m15s211ms
+Hands Played: 500000
+Player edge: -0.39%
+Strategy: basic-strategy
+-- Game Rules -- 
+DECKS_IN_SHOE=6
+CUT_CARD_RANGE=[55, 60]
+BLACKJACK_PAYOUT=1.5
+DEALER_HIT_SOFT_17=False
+SPLIT_MAX_TIMES=3
+SURRENDER_ALLOWED=False
+CONVERT_TO_TRUE_COUNT=True
+STARTING_COUNT=0
+
+
+Finished running simulation at 2024-12-07 18:50:05
+Simulation duration: 0m15s439ms
+Hands Played: 500000
+Player edge: -0.09%
+Strategy: basic-strategy
+-- Game Rules -- 
+DECKS_IN_SHOE=2
+CUT_CARD_RANGE=[55, 60]
+BLACKJACK_PAYOUT=1.5
+DEALER_HIT_SOFT_17=False
+SPLIT_MAX_TIMES=3
+SURRENDER_ALLOWED=False
+CONVERT_TO_TRUE_COUNT=True
+STARTING_COUNT=0
+
+
+Finished running simulation at 2024-12-07 18:54:19
+Simulation duration: 0m0s162ms
+Hands Played: 5000
+Player edge: -2.45%
+Strategy: basic-strategy
+-- Game Rules -- 
+DECKS_IN_SHOE=2
+CUT_CARD_RANGE=[55, 60]
+BLACKJACK_PAYOUT=1.5
+DEALER_HIT_SOFT_17=False
+SPLIT_MAX_TIMES=3
+SURRENDER_ALLOWED=False
+CONVERT_TO_TRUE_COUNT=True
+STARTING_COUNT=0
+
+
+Finished running simulation at 2024-12-07 18:54:30
+Simulation duration: 0m1s550ms
+Hands Played: 50000
+Player edge: -0.06%
+Strategy: basic-strategy
+-- Game Rules -- 
+DECKS_IN_SHOE=2
+CUT_CARD_RANGE=[55, 60]
+BLACKJACK_PAYOUT=1.5
+DEALER_HIT_SOFT_17=False
+SPLIT_MAX_TIMES=3
+SURRENDER_ALLOWED=False
+CONVERT_TO_TRUE_COUNT=True
+STARTING_COUNT=0
+
+

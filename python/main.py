@@ -18,3 +18,4 @@ if __name__ == '__main__':
     shoe.shuffle()
     game.play_blackjack()
     hand_analyzer.display_info()
+    hand_analyzer.save_simulation_results()

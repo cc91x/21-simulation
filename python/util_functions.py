@@ -77,4 +77,3 @@ def print_game_configuration():
     logger.summary(f'Starting simulation using strateg: {cfg.STRATEGY_NAME}')
     logger.summary(f'Game has {cfg.DECKS_IN_SHOE} decks and cut card point is in range: {cfg.CUT_CARD_RANGE}')
     logger.summary(f'Will play the minimum of {cfg.SHUFFLES_TO_PLAY} shuffles and {cfg.HANDS_TO_PLAY} hands \n')
-

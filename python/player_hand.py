@@ -39,7 +39,8 @@ class PlayerHand(Hand):
         return self._is_surrendered 
 
     def limit_to_one_hit(self):
-        self._number_hits_allowed = 1
+        if self._number_hits_allowed > 0:
+            self._number_hits_allowed = 1
 
     def count_hit(self):
         self._number_hits_allowed -= 1

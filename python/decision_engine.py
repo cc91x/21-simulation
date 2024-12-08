@@ -40,7 +40,7 @@ class DecisionEngine():
         logger.decision(f'Double down hand decision function is {decision} for {player_hand.get_hand_string()} and dealer up card: {dealer_up_card.get_card_string()}')
         return decision
     
-    def should_player_hit(self, player_hand, dealer_up_card, temp_debug):
+    def should_player_hit(self, player_hand, dealer_up_card):
         non_ace_total = player_hand.get_non_aces_hand_total()
 
         if player_hand.contains_ace() and non_ace_total < 10:
@@ -49,8 +49,6 @@ class DecisionEngine():
             decision = do_matrix_lookup_3d(self._hard_should_hit_matrix, self._count.count, player_hand.get_optimal_score(), dealer_up_card.numeric_value)
 
         logger.card(f'Player hit decision is {decision} with {player_hand.get_hand_string()} and dealer up card {dealer_up_card.get_card_string()}')
-        if temp_debug:
-            logger.summary(f'Player hit decision is {decision} with {player_hand.get_hand_string()} and dealer up card {dealer_up_card.get_card_string()}')
         return decision
     
     def should_split_func(self, player_hand, dealer_up_card):

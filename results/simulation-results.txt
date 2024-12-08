@@ -1,0 +1,16 @@
+
+rows.append(f'Finished running simulation at {endtime.strftime("%Y-%m-%d %H:%M:%S")}')
+        rows.append(f'Simulation duration: {endtime - self._start_time}')
+        rows.append(f'Hands Played: {self._hands_played}')
+        rows.append(f'Player edge: {self._calculate_player_edge(self._get_total_pnl())}%')
+        rows.append(f'Strategy: {cfg.STRATEGY_NAME}')
+        rows.append('-- GAME RULES -- ')
+        rows.append(f'DECKS_IN_SHOE={cfg.DECKS_IN_SHOE}')
+        rows.append(f'CUT_CARD_RANGE={cfg.CUT_CARD_RANGE}')
+        rows.append(f'BLACKJACK_PAYOUT={cfg.BLACKJACK_PAYOUT}')
+        rows.append(f'DEALER_HIT_SOFT_17={cfg.DEALER_HIT_SOFT_17}')
+        rows.append(f'SPLIT_MAX_TIMES={cfg.SPLIT_MAX_TIMES}')
+        rows.append(f'SURRENDER_ALLOWED={cfg.SURRENDER_ALLOWED}')
+        rows.append(f'CONVERT_TO_TRUE_COUNT={cfg.CONVERT_TO_TRUE_COUNT}')
+        rows.append(f'STARTING_COUNT={cfg.STARTING_COUNT}')
+
