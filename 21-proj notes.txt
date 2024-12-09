@@ -303,5 +303,10 @@ Whatever I just did ... seems to have worked
 
 # TODO 
 Update readme again
-Add a Player edge % return instead of PNL in the logs?
+Add a Player edge % return instead of PNL in the logs? -> in progress 
+    -> When calculating player edge, I think I need to exclude the bet unit size in the calculation. But should still somehow present the total return 
+    -> I think I should replace the PNL section from Pair vs dealer to use edge % instead of raw PNL ... either way, knowing bet unit size, pnl and edge can be used to calculate others
+Mark the count before playing the hand- and see how if it changes  
+    -> yes it has flipped, and now looks correct. Should now add ROI to the end print screen
+
 

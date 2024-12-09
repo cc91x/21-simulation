@@ -44,7 +44,7 @@ class GameplayEngine():
         else:
             return (True, HandResult.LOSE)
 
-    def _determine_hand_results(self, player_hands, dealer_hand):
+    def _determine_hand_results(self, player_hands, dealer_hand, pre_hand_count):
         round_pnl = 0
         dealer_score = dealer_hand.get_dealer_score()
         for hand in player_hands:
@@ -66,7 +66,7 @@ class GameplayEngine():
             hand_win_amount = get_win_amount(result, hand, dealer_hand.is_blackjack())
             hand.bankroll.add(hand_win_amount)
             hand_pnl = hand_win_amount - hand.bet_value
-            self._hand_analyzer.analyze_hand(hand, dealer_hand.get_face_up_card(), hand_pnl, self._count)
+            self._hand_analyzer.analyze_hand(hand, dealer_hand.get_face_up_card(), hand_pnl, pre_hand_count)
             round_pnl += hand_pnl 
 
         logger.card(f'Round complete. PNL from hands: {round_pnl}')
@@ -140,7 +140,7 @@ class GameplayEngine():
             player_hand.take_insurance()
 
         
-    def play_hand(self, player_hands, dealer_hand):
+    def play_hand(self, player_hands, dealer_hand, pre_hand_count):
         """ Logic to run a hand  """
 
         dealer_up_card = dealer_hand.get_face_up_card()
@@ -154,7 +154,7 @@ class GameplayEngine():
             self._play_hands_as_player(player_hands, dealer_up_card)
             self._play_hand_as_dealer(player_hands, dealer_hand)
 
-        self._determine_hand_results(player_hands, dealer_hand)
+        self._determine_hand_results(player_hands, dealer_hand, pre_hand_count)
         logger.card(f'Hands played: {self._hand_analyzer.hands_played} PNL so far: {self._bankroll.balance}')
 
     def play_blackjack(self):
@@ -172,5 +172,6 @@ class GameplayEngine():
             bet_size = self._determine_bet_size()
             player_hands = [PlayerHand(self._bankroll, bet_size, [])]
             dealer_hand = DealerHand([])
+            pre_hand_count = self._count.count
             self._deal_opening_cards(player_hands, dealer_hand)
-            self.play_hand(player_hands, dealer_hand)
+            self.play_hand(player_hands, dealer_hand, pre_hand_count)
