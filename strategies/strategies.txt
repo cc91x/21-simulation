@@ -1,0 +1,26 @@
+There are 4 pre-populated strategies for in game decision making. All of the situation specific decisions are sourced from 
+Blackjack Apprenticeship (BJA) (https://www.blackjackapprenticeship.com/) or Blackbelt in Blackjack (BIB) (Snyder, A. (1998). Blackbelt in blackjack: Playing 21 as a martial art. Huntington Press.)
+
+1. basic-strategy 
+  - No card counting is done and all decisions are sourced from common basic strategy charts, found in both BJA and BIB. 
+  - Player edge is around -0.5% depending on game conditions.
+
+2. hi-lo 
+  - The popular hi-lo count. Uses card values and decisions from BJA. Decision charts - https://www.blackjackapprenticeship.com/wp-content/uploads/2019/07/BJA_S17.pdf
+  - Curiously, the count modified decisions actually perform worse at +true counts than basic strategy. To compare the two, change the 
+      card counting values used in basic-strategy to be match the hi-lo system, and run basic strategy
+
+3. hi-lo-lite 
+  - Similar to above. Uses the same card counting system, but certain decisions are different. All charts are sourced from BIB chapter 7 and the appendix.
+  - Again, the count specific decisions perform worse than basic strategy, and most sims have player edge at -2.5%. It is likely there was 
+      an error transcribing the charts into the .csv files. 
+
+4. zen 
+  - The Zen counting system, as defined in BIB chapter 8 and appendix. 
+  - This system has a complex way of determining true count, and so all decisions were left the same as basic strategy. The code can be tweaked to accomdate this, 
+      for those interested. 
+
+
+To create a new strategy, create a directory under the strategy name, copy over all the .csv files from templates (which should 
+be identical to the ones in basic-strategy) and populate them as fit. Update the COUNTING_STRATEGY_DIRECTORY property in the config
+file with the new strategy name.

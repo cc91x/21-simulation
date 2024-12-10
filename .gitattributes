@@ -1,0 +1,4 @@
+*.csv linguist-vendored
+*.py linguist-language=Python
+*.roff linguist-vendored
+

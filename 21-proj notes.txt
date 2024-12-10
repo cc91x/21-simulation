@@ -178,7 +178,172 @@ Things to add:
         - bankroll sized betting. i.e. if bankroll grows or shrinks mid game, change bet size accordingly
 """
 
-
 test comment
+
+TODO: Should we capitalize the file names? not sure why theyre not already
+claude is suggesting using underscores instead of camelcase for file names ... I could get behind that
+    - PEP 8 supported, /advised -> done 
+
+- Need to allow only 1 card being picked up after doubling - done
+- And if you split aces, can only hit once more - done 
+    - and if it goes split ace, then 10 - its not blackjack - done 
+- Check if Aces become hard once it HAS to be a 1 ... (i.e. if the Ace being 11 would make it > 21, then it's no longer soft) - done 
+- Add a should surrender csv - done
+- Make surrender being allowed configurable - done 
+
+
+# Latest bug
+2024-12-02 20:10:21,367 - CARD - Player [[A♥][A♣]]
+2024-12-02 20:10:21,368 - CARD - Dealer up card: [3♣]
+2024-12-02 20:10:21,368 - CARD - Player hit decision is True with Player [[A♥][2♣]] and dealer up card [3♣]
+2024-12-02 20:10:21,368 - CARD - Player hit decision is True with Player [[A♣][4♠]] and dealer up card [3♣]
+2024-12-02 20:10:21,368 - CARD - Hand Complete. Result for player: WIN with Player [[A♥][2♣][9♣]] and Dealer [[3♣][K♠][J♣]]
+2024-12-02 20:10:21,368 - CARD - Hand Complete. Result for player: WIN with Player [[A♣][4♠][K♣]] and Dealer [[3♣][K♠][J♣]]
+2024-12-02 20:10:21,368 - CARD - Hands played: 2 PNL so far: 1
+2024-12-02 20:10:21,368 - SUMMARY - END OF GAME ANALYSIS 
+
+# This logic needs to be looked at - HAND STATISTICS BY PAIR TOTAL vs DEALER UP CARD
+
+# 3 bugs detected  
+- Splitting example above, total pnl is messed up 
+- splitting aces should only allow one more hit -> and check double down  
+- the hand statistics by pair counts don't make sense 
+
+Also, I should consider adding an add_to_front (or end technically) method to the shoe class, which can be used in testing
+-> and then potentially revert everything done with shoe.deal_card() as a parameter 
+
+# Another bug here - where does the 3rd hand come from...?
+Hands played: 9 PNL so far: 3.5
+2024-12-03 23:06:01,708 - CARD - Player [[A S][A D]]
+2024-12-03 23:06:01,709 - CARD - Dealer up card: [4 H]
+2024-12-03 23:06:01,711 - CARD - Doubling down for with Player [[A S][7 C]] and dealer up card [4 H]
+2024-12-03 23:06:01,712 - CARD - Doubling down for with Player [[A D][6 H]] and dealer up card [4 H]
+2024-12-03 23:06:01,713 - CARD - Player hit decision is False with Player [[A S][7 C]] and dealer up card [4 H]
+2024-12-03 23:06:01,714 - CARD - Player hit decision is True with Player [[A D][6 H]] and dealer up card [4 H]
+2024-12-03 23:06:01,714 - CARD - Hand Complete. Result for player: WIN with Player [[A S][7 C]] and Dealer [[4 H][10 H][J H]]
+2024-12-03 23:06:01,715 - CARD - Hand Complete. Result for player: WIN with Player [[A D][6 H][9 H]] and Dealer [[4 H][10 H][J H]]
+2024-12-03 23:06:01,716 - CARD - Hand Complete. Result for player: WIN with Player [[A C][10 H]] and Dealer [[4 H][10 H][J H]]
+2024-12-03 23:06:01,717 - CARD - Hands played: 12 PNL so far: 8.5
+-> Note the 10H appears twice... which would e extremely rare given that this was with 2 deck (maybe I should do one deck for testing?)
+-> Tried replicating in testing_file and it's not working 
+
+
+Open bugs - 
+- print formatting for: Total hands played: 9. Bankroll: 4.5 -> between shuffles -> Done
+- the above logs
+    - still really want to figure out what happened there ... maybe the previous hands don't get cleared? or something ... didn't appear when I retried 
+- ending summary skewed hand amounts -> done 
+- when I remove the surrender ability, pnl starts to go negative. perhaps my surrender logic is too forgiving / early
+
+wizard of odds calculator has it at let's say. .321% edge for dealer 
+.321 / 2 = .16
+
+so 50.16 vs 49.84 
+so after 100000 hands, it would be 
+100000 * (2) * (.5016) for dealer
+(100000 * (2) * (.4984)) - 100000 for player = -320 
+
+formula for expected profit is (num hands - (num hands * (1 + house edge as %)) 
+    - profit would be num hands - (num hands * (1 + house edge %)) = expected profit 
+    solving for house edge 
+    ((expected profit + num hands) / num hands) - 1 = house edge %
+
+500k hands would be below,
+500000  - (500000 * (1 + .00321)) = -1605 and we're getting more like -500 
+
+using https://www.blackjackapprenticeship.com/blackjack-calculator/, once we go up to 4 decks, it seems to get really accurate
+
+Goes from negative without surrender to +9k ... which implies 54% house edge. So something's definitely off
+I think I should make SURRENDER part of the hand result enum -> it's already there
+Whatever I just did ... seems to have worked 
+    -> test fully, and move the calculate_win_amount() func to utilities
+
+
+# Open bugs 
+- the above logs with the split aces becoming three
+    - still really want to figure out what happened there ... maybe the previous hands don't get cleared? or something ... didn't appear when I retried
+- make the end of game printing be dependent on spacing for the longest num # value in the set 
+# Print ROI 
+# Should I do something to save run results in another results log file? 
+    - something like "ran x hands, total pnl y, player edge / house edge is %, then these are the stats: 
+    - not a bad idea
+
+-> found this bug again! only seems to happens when aces is the split card - added some print statements to help
+2024-12-05 23:25:38,553 - SUMMARY - Hand Complete. Result for player: WIN with Player [[A C][9 D]] and Dealer [[2 S][6 C][10 H]]
+2024-12-05 23:25:38,554 - SUMMARY - Hand Complete. Result for player: PUSH with Player [[A S][7 C]] and Dealer [[2 S][6 C][10 H]]
+2024-12-05 23:25:38,555 - SUMMARY - Hand Complete. Result for player: LOSE with Player [[A C][5 C]] and Dealer [[2 S][6 C][10 H]]
+
+2024-12-05 23:25:36,958 - SUMMARY - Hand Complete. Result for player: WIN with Player [[A D][4 C]] and Dealer [[6 S][8 H][10 S]]
+2024-12-05 23:25:36,960 - SUMMARY - Hand Complete. Result for player: WIN with Player [[A H][10 D]] and Dealer [[6 S][8 H][10 S]]
+2024-12-05 23:25:36,962 - SUMMARY - Hand Complete. Result for player: WIN with Player [[A C][6 D]] and Dealer [[6 S][8 H][10 S]]
+
+-- the latest
+2024-12-06 18:09:48,208 - SUMMARY - Splitting hand Player [[A♦][A♥]]
+2024-12-06 18:09:48,208 - SUMMARY - Doubling down with Player [[A♥][6♦]] and dealer up card [3♥]
+2024-12-06 18:09:48,208 - SUMMARY - Doubling down with Player [[A♦][6♣]] and dealer up card [3♥]
+2024-12-06 18:09:48,208 - SUMMARY - Player hit decision is True with Player [[A♥][6♦]] and dealer up card [3♥]
+2024-12-06 18:09:48,208 - SUMMARY - Player hit decision is True with Player [[A♦][6♣]] and dealer up card [3♥]
+2024-12-06 18:09:48,209 - SUMMARY - Hand Complete. Result for player: LOSE with Player [[A♥][6♦][3♠]] and Dealer [[3♥][8♣][J♦]]
+2024-12-06 18:09:48,209 - SUMMARY - Hand Complete. Result for player: LOSE with Player [[A♦][6♣][5♥]] and Dealer [[3♥][8♣][J♦]]
+2024-12-06 18:09:48,209 - SUMMARY - Hand Complete. Result for player: PUSH with Player [[A♥][K♣]] and Dealer [[3♥][8♣][J♦]]
+
+
+# Open bugs 
+- the above logs with the split aces becoming three
+    - still really want to figure out what happened there ... maybe the previous hands don't get cleared? or something ... didn't appear when I retried
+    - This looks to be no problem... when I add my printing logic, everything looks good. 
+    - There was a bug with hitting a card after splitting aces, then doubling down, but now fixed.
+- make the end of game printing be dependent on spacing for the longest num # value in the set -> actually already done 
+# Print ROI -> done 
+# Should I do something to save run results in another results log file? 
+    - something like "ran x hands, total pnl y, player edge / house edge is %, then these are the stats: 
+    - not a bad idea
+# NEW HYPER EDGE CASE: When player doubles down after splitting aces, then getting dealt a card, despite not being able to hit again ... actually think I fixed this 
+- add duration -> done 
+
+# TODO
+Add a Player edge % return instead of PNL in the logs? -> in progress 
+    -> When calculating player edge, I think I need to exclude the bet unit size in the calculation. But should still somehow present the total return 
+    -> I think I should replace the PNL section from Pair vs dealer to use edge % instead of raw PNL ... either way, knowing bet unit size, pnl and edge can be used to calculate others
+        -> This i'm not sure is completely accurate - should probably just get rid of Edge w/Unit sizing ... its more confusing
+Mark the count before playing the hand- and see how if it changes  
+    -> yes it has flipped, and now looks correct. Should now add ROI to the end print screen 
+
+
+UPDATE README AGAIN
+- and fully test for other counting strategies 
+    -> done 
+- buy this blackbelt in Blackjack book and try to add a few strategies (zen system), and run the basic test
+    - then merge and squash on git 
+
+- This book blackbelt in blackjack suggests surrender should happen before splitting
+    - what if you surrender before and after splitting...? -> yes should surrender before splitting, need to update
+- Another note - we just pre_hand count for betting unit but then use current count to determine action ... which I think is ok
+
+- True count should actually be div by # decks remaining to be dealt - total decks, regardless of cut card point
+    -> fix this -> done 
+
+- and this is called hi-lo lite -> done 
+
+- consider using pre hand count for all decisions instead of mid hand
+    - should try it and see what works with better with the counts 
+
+# Try again with hi-lo-lite-2 and basic-strategy-2 to exactly match the blackbelt blackjack charts in appendix 
+    - with hi-lo-lite-1, they got worse after I modified the decision
+
+# Note filling these charts in as if double after split is allowed 
+# try hi-lo deviations from BJA ... yes, another chart 
+    - https://www.blackjackapprenticeship.com/wp-content/uploads/2019/07/BJA_S17.pdf
+
+hi-lo-lite, using current count (as opposed to pre hand) and the wrong adjust to range func is giving like -1.85% returns 
+    - about -1.5% to -2% after fixing adjust_to_range 
+    - pre hand not any better
+    - hi lo lite 2 somehow even worse 
+        - but much more consistent
+
+actually, my adjust to range is wrong. It should use the next lowest idx if possible so -1 maps to -2 instead of 0 -> fixed 
+
+Leaving it at pre-hand. It performs slightly better
+
 
 
