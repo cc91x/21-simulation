@@ -56,8 +56,7 @@ Note: The value of 11 is used for Aces anytime it refers to a single card
 
 # Future Enhancements 
 
-Though the customizability is extensive, there are still elements to the game and counting strategies that are unsupported, an ideally will be added in the future. For counting, not included are aces side counts (used to keep a separate count for aces) and suit based counts (some counts, like red 7s, differ their count based on card suit). For gameplay, most side bets, like pairs, royals, flushes, etc., are not included. Most of the common game conditions were added, but there countless casinos out there which may use their own bespoke rules - and if it's not in the config file, it's not included. Other enhancements revolve around user features, like providing a better output than print statements for data analysis, and more in depth scenario   
-Also, a UI  
+Though the customizability is extensive, there are still elements to the game and counting strategies that are unsupported and ideally will be added in the future. For counting strategies, not included are aces side counts (used to keep a separate count for aces) and suit based strategies (some strategies, like red 7s, differentiate cards based on suit). For gameplay, most side bets, like pairs, royals, flushes, etc., are not included. Many of the common game conditions/rules were added, but there countless casinos out there which may use their own bespoke rules - and if it's not in the config file, it's not included. Other enhancements center around user features, such as providing a better output for data analysis than raw print statements, and more in depth scenario evaluation.  
 
 ## Blackjack reference materials
 

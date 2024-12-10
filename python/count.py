@@ -5,6 +5,8 @@ from math import ceil, floor
 from gameplay_config import GameplayConfig as cfg
 from util_functions import load_1d_decision_matrix
 
+DECK_LENGTH = 52
+
 
 class Count():
     
@@ -13,12 +15,15 @@ class Count():
         self._count_matrix = load_1d_decision_matrix(cfg.COUNT_DIRECTORY + 'COUNT_CARD_VALUES.csv')
         self._num_decks = num_decks
         self._running_count = starting_count
+        self._starting_count = starting_count
 
     @property 
     def count(self):
         if cfg.CONVERT_TO_TRUE_COUNT:
-            true_count_raw = self._running_count / self.num_decks
-            return floor(true_count_raw) if self._running_count > 0 else ceil(true_count_raw)
+            decks_remaining = self._num_decks - (int(round(len(self._cards_dealt) / DECK_LENGTH, 0)))
+            true_count_raw = self._running_count / (decks_remaining if decks_remaining != 0 else 1)
+            val = floor(true_count_raw) if self._running_count > 0 else ceil(true_count_raw)
+            return val
         else:
             return self._running_count
 
@@ -32,4 +37,4 @@ class Count():
 
     def reset(self):
         self._cards_dealt = []
-        self._running_count = 0
+        self._running_count = self._starting_count

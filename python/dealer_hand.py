@@ -8,7 +8,6 @@ class DealerHand(Hand):
     def __init__(self, starter_cards):
         super().__init__(starter_cards, 'Dealer')
         self._face_down_card = None
-        # self._face_down_card = None if starter_cards == [] else starter_cards[0]
 
     def deal_card_face_down(self, shoe):
         card = shoe.deal_card()

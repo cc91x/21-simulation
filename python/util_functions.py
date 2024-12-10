@@ -1,5 +1,6 @@
 """ Miscellaneous helper functions """
 
+from bisect import bisect_left
 from csv import reader
 
 from constants import HandResult
@@ -8,13 +9,24 @@ from gameplay_config import GameplayConfig as cfg
 
 
 def adjust_to_range(num, val_range):
-    mn, mx = min(val_range), max(val_range)
-    if num < mn:
-        return mn
-    elif num > mx:
-        return mx
-    else:
-        return num
+    """ Used to map a count to a decision count. Often times decisions are defined every few changes in count, e.g. -2,0,2,4... 
+    We then only define decision charts for counts when they change. There would be a chart for counts -2, 0, 2, 4, but no chart for -1, 1, 3.
+    We would then map each value to the closest defined count towards 0. So 1 maps to 0, 3 to 2, -3 to -2, -1 to 0 etc. 
+    """
+    sorted_range = sorted(val_range)
+    idx = 0 
+    pos = bisect_left(sorted_range, num)
+
+    if pos == len(sorted_range): # num > max(range)
+        idx = len(sorted_range) - 1
+    elif sorted_range[pos] == num: # num is in range
+        idx = pos
+    elif num >= 0: # num is positive and between two counts. Choose one closer to 0 if possible 
+        idx = pos - 1 if pos != 0 else 0
+    else: # num is negative and between two counts. One to the right closer to 0 
+        idx = pos
+
+    return sorted_range[idx]
     
 def get_payout_from_bet(result, bet_value):
         if result == HandResult.WIN:

@@ -32,3 +32,4 @@ class GameplayConfig():
 
     CONVERT_TO_TRUE_COUNT = config.getboolean('COUNTING_STRATEGY', 'CONVERT_TO_TRUE_COUNT')
     STARTING_COUNT = config.getint('COUNTING_STRATEGY', 'STARTING_COUNT')
+    RECORDING_RANGE = _read_num_range(config.get('COUNTING_STRATEGY', 'RECORDING_RANGE'))

@@ -20,7 +20,7 @@ class DecisionEngine():
 
 
     def determine_bet_size(self, count):
-        return self._bet_sizing_mapping.get(adjust_to_range(count.count, self._bet_sizing_mapping.keys()))
+        return self._bet_sizing_mapping.get(adjust_to_range(count, self._bet_sizing_mapping.keys()))
     
     def should_dealer_hit(self, dealer_hand):
         dealer_score = dealer_hand.get_dealer_score()

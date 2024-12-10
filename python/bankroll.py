@@ -1,5 +1,6 @@
 """ A class for the player's bankroll """
 
+
 class Bankroll():
     
     def __init__(self, starting_balance):

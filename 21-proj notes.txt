@@ -298,15 +298,40 @@ Whatever I just did ... seems to have worked
 # Should I do something to save run results in another results log file? 
     - something like "ran x hands, total pnl y, player edge / house edge is %, then these are the stats: 
     - not a bad idea
-# NEW HYPER EDGE CASE: When player doubles down after splitting aces, then getting dealt a card, despite not being able to hit again ... will leave it
+# NEW HYPER EDGE CASE: When player doubles down after splitting aces, then getting dealt a card, despite not being able to hit again ... actually think I fixed this 
 - add duration -> done 
 
-# TODO 
-Update readme again
+# TODO
 Add a Player edge % return instead of PNL in the logs? -> in progress 
     -> When calculating player edge, I think I need to exclude the bet unit size in the calculation. But should still somehow present the total return 
     -> I think I should replace the PNL section from Pair vs dealer to use edge % instead of raw PNL ... either way, knowing bet unit size, pnl and edge can be used to calculate others
+        -> This i'm not sure is completely accurate - should probably just get rid of Edge w/Unit sizing ... its more confusing
 Mark the count before playing the hand- and see how if it changes  
-    -> yes it has flipped, and now looks correct. Should now add ROI to the end print screen
+    -> yes it has flipped, and now looks correct. Should now add ROI to the end print screen 
 
+
+UPDATE README AGAIN
+- and fully test for other counting strategies 
+    -> done 
+- buy this blackbelt in Blackjack book and try to add a few strategies (zen system), and run the basic test
+    - then merge and squash on git 
+
+- This book blackbelt in blackjack suggests surrender should happen before splitting
+    - what if you surrender before and after splitting...? -> yes should surrender before splitting, need to update
+- Another note - we just pre_hand count for betting unit but then use current count to determine action ... which I think is ok
+
+- True count should actually be div by # decks remaining to be dealt - total decks, regardless of cut card point
+    -> fix this 
+
+- and this is called hi-lo lite 
+
+- consider using pre hand count for all decisions instead of mid hand
+
+    mn, mx = min(val_range), max(val_range)
+    if num < mn:
+        return mn
+    elif num > mx:
+        return mx
+    else:
+        return num
 

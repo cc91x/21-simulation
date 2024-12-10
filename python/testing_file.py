@@ -4,13 +4,14 @@ from bankroll import Bankroll
 from card import Card
 from constants import CardRank, Suit
 from count import Count
-from shoe import Shoe
-from dealer_hand import DealerHand
 from custom_logging import global_logger as logger
-from hand_analyzer import HandAnalyzer
+from dealer_hand import DealerHand
 from gameplay_config import GameplayConfig as cfg
 from gameplay_engine import GameplayEngine
+from hand_analyzer import HandAnalyzer
 from player_hand import PlayerHand
+from shoe import Shoe
+
 
 # Remember to set the logging level to CARD or DECISION in the config file
 shoe = Shoe(cfg.DECKS_IN_SHOE, cfg.CUT_CARD_RANGE)

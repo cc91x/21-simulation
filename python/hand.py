@@ -1,5 +1,6 @@
 """ A parent class for PlayerHand and DealerHand classes"""
 
+
 class Hand():
     def __init__(self, cards, hand_type='PLAYER'):
         self._cards = cards
@@ -39,7 +40,8 @@ class Hand():
 
     def get_optimal_score(self):
         """Returns the score if there are no aces in hand. If there is
-           an ace, returns the highest possible score 21 or under. """
+           an ace, returns the highest possible score 21 or under. 
+        """
         base_total = self.get_non_aces_hand_total()
     
         if self._get_aces_count() == 0:
