@@ -1,6 +1,5 @@
 """ Miscellaneous helper functions """
 
-from bisect import bisect_left
 from csv import reader
 
 from constants import HandResult
@@ -14,19 +13,11 @@ def adjust_to_range(num, val_range):
     We would then map each value to the closest defined count towards 0. So 1 maps to 0, 3 to 2, -3 to -2, -1 to 0 etc. 
     """
     sorted_range = sorted(val_range)
-    idx = 0 
-    pos = bisect_left(sorted_range, num)
-
-    if pos == len(sorted_range): # num > max(range)
-        idx = len(sorted_range) - 1
-    elif sorted_range[pos] == num: # num is in range
-        idx = pos
-    elif num >= 0: # num is positive and between two counts. Choose one closer to 0 if possible 
-        idx = pos - 1 if pos != 0 else 0
-    else: # num is negative and between two counts. One to the right closer to 0 
-        idx = pos
-
-    return sorted_range[idx]
+    closest = sorted_range[0]
+    for val in sorted_range:
+        if num >= val:
+            closest = val
+    return closest 
     
 def get_payout_from_bet(result, bet_value):
         if result == HandResult.WIN:
@@ -86,6 +77,6 @@ def load_3d_decision_matrix(path):
     return matrix
 
 def print_game_configuration():
-    logger.summary(f'Starting simulation using strateg: {cfg.STRATEGY_NAME}')
+    logger.summary(f'Starting simulation using strategy: {cfg.STRATEGY_NAME}')
     logger.summary(f'Game has {cfg.DECKS_IN_SHOE} decks and cut card point is in range: {cfg.CUT_CARD_RANGE}')
     logger.summary(f'Will play the minimum of {cfg.SHUFFLES_TO_PLAY} shuffles and {cfg.HANDS_TO_PLAY} hands \n')

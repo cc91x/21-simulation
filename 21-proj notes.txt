@@ -321,17 +321,29 @@ UPDATE README AGAIN
 - Another note - we just pre_hand count for betting unit but then use current count to determine action ... which I think is ok
 
 - True count should actually be div by # decks remaining to be dealt - total decks, regardless of cut card point
-    -> fix this 
+    -> fix this -> done 
 
-- and this is called hi-lo lite 
+- and this is called hi-lo lite -> done 
 
 - consider using pre hand count for all decisions instead of mid hand
+    - should try it and see what works with better with the counts 
 
-    mn, mx = min(val_range), max(val_range)
-    if num < mn:
-        return mn
-    elif num > mx:
-        return mx
-    else:
-        return num
+# Try again with hi-lo-lite-2 and basic-strategy-2 to exactly match the blackbelt blackjack charts in appendix 
+    - with hi-lo-lite-1, they got worse after I modified the decision
+
+# Note filling these charts in as if double after split is allowed 
+# try hi-lo deviations from BJA ... yes, another chart 
+    - https://www.blackjackapprenticeship.com/wp-content/uploads/2019/07/BJA_S17.pdf
+
+hi-lo-lite, using current count (as opposed to pre hand) and the wrong adjust to range func is giving like -1.85% returns 
+    - about -1.5% to -2% after fixing adjust_to_range 
+    - pre hand not any better
+    - hi lo lite 2 somehow even worse 
+        - but much more consistent
+
+actually, my adjust to range is wrong. It should use the next lowest idx if possible so -1 maps to -2 instead of 0 -> fixed 
+
+Leaving it at pre-hand. It performs slightly better
+
+
 

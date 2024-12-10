@@ -74,10 +74,10 @@ class GameplayEngine():
 
         logger.card(f'Round complete. PNL from hands: {round_pnl}')
 
-    def _double_down_on_hands_if_applicable(self, player_hands, dealer_up_card):
+    def _double_down_on_hands_if_applicable(self, player_hands, dealer_up_card, pre_hand_count):
         if len(player_hands) == 1 or cfg.DOUBLE_AFTER_SPLIT:
             for hand in player_hands:
-                if not hand.is_surrendered and self._decision_engine.should_double_down_func(hand, dealer_up_card):
+                if not hand.is_surrendered and self._decision_engine.should_double_down_func(hand, dealer_up_card, pre_hand_count):
                     logger.card(f'Doubling down with {hand.get_hand_string()} and dealer up card {dealer_up_card.get_card_string()}')
                     hand.double_down()
                     hand.limit_to_one_hit()        
@@ -89,13 +89,13 @@ class GameplayEngine():
         while player_has_under_21 and self._decision_engine.should_dealer_hit(dealer_hand):
             dealer_hand.deal_card_face_up(self._shoe, self._count, logger)
 
-    def _play_hands_as_player(self, player_hands, dealer_up_card):
+    def _play_hands_as_player(self, player_hands, dealer_up_card, pre_hand_count):
         for hand in player_hands:
-            while hand.is_allowed_to_hit and self._decision_engine.should_player_hit(hand, dealer_up_card):
+            while hand.is_allowed_to_hit and self._decision_engine.should_player_hit(hand, dealer_up_card, pre_hand_count):
                 hand.deal_card_face_up(self._shoe, self._count, logger)
                 hand.count_hit()
         
-    def _split_player_hands_if_applicable(self, player_hands, dealer_up_card):
+    def _split_player_hands_if_applicable(self, player_hands, dealer_up_card, pre_hand_count):
         should_split = not player_hands[0]._is_surrendered
         
         while len(player_hands) < cfg.SPLIT_MAX_TIMES + 1 and should_split:
@@ -103,7 +103,7 @@ class GameplayEngine():
             should_split = False
             
             for hand in player_hands:
-                if not hand.has_insurance and self._decision_engine.should_split_func(hand, dealer_up_card):
+                if not hand.has_insurance and self._decision_engine.should_split_func(hand, dealer_up_card, pre_hand_count):
                     should_split = True
                     logger.card(f'Splitting hand {hand.get_hand_string()}')
                     hand1, hand2 = hand.split_hand()
@@ -125,20 +125,20 @@ class GameplayEngine():
 
         return player_hands
 
-    def _surrender_hands_if_applicable(self, player_hands, dealer_hand):
+    def _surrender_hands_if_applicable(self, player_hands, dealer_hand, pre_hand_count):
         if not cfg.SURRENDER_ALLOWED:
             return 
         else:
             dealer_up_card = dealer_hand.get_face_up_card()
             for hand in player_hands:
-                if self._decision_engine.should_surrender_func(hand, dealer_up_card):
+                if self._decision_engine.should_surrender_func(hand, dealer_up_card, pre_hand_count):
                     hand.surrender()
                     dealer_hand.reveal_face_down_card(self._count)
                     logger.card(f'Surrendering {hand.get_hand_string()}')
     
-    def _take_insurance_if_applicable(self, player_hands, dealer_up_card):
+    def _take_insurance_if_applicable(self, player_hands, dealer_up_card, pre_hand_count):
         player_hand = player_hands[0]
-        if self._decision_engine.should_take_insurance_func(dealer_up_card):
+        if self._decision_engine.should_take_insurance_func(dealer_up_card, pre_hand_count):
             logger.card(f'Taking insurance for {player_hand.bet_value / 2}')
             player_hand.take_insurance()
 
@@ -147,14 +147,14 @@ class GameplayEngine():
         """ Logic to run a hand  """
 
         dealer_up_card = dealer_hand.get_face_up_card()
-        self._take_insurance_if_applicable(player_hands, dealer_up_card)
+        self._take_insurance_if_applicable(player_hands, dealer_up_card, pre_hand_count)
 
         if not self._check_for_blackjacks(player_hands, dealer_hand):
-            self._surrender_hands_if_applicable(player_hands, dealer_hand)
-            player_hands = self._split_player_hands_if_applicable(player_hands, dealer_up_card)
+            self._surrender_hands_if_applicable(player_hands, dealer_hand, pre_hand_count)
+            player_hands = self._split_player_hands_if_applicable(player_hands, dealer_up_card, pre_hand_count)
             
-            self._double_down_on_hands_if_applicable(player_hands, dealer_up_card)
-            self._play_hands_as_player(player_hands, dealer_up_card)
+            self._double_down_on_hands_if_applicable(player_hands, dealer_up_card, pre_hand_count)
+            self._play_hands_as_player(player_hands, dealer_up_card, pre_hand_count)
             self._play_hand_as_dealer(player_hands, dealer_hand)
 
         self._determine_hand_results(player_hands, dealer_hand, pre_hand_count)

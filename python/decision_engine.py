@@ -29,40 +29,40 @@ class DecisionEngine():
             
         return dealer_score < 17
     
-    def should_double_down_func(self, player_hand, dealer_up_card):
+    def should_double_down_func(self, player_hand, dealer_up_card, pre_hand_count):
         non_ace_total = player_hand.get_non_aces_hand_total()
 
         if player_hand.contains_ace() and non_ace_total < 10:
-            decision = do_matrix_lookup_3d(self._soft_should_double_matrix, self._count.count, non_ace_total, dealer_up_card.numeric_value)
+            decision = do_matrix_lookup_3d(self._soft_should_double_matrix, pre_hand_count, non_ace_total, dealer_up_card.numeric_value)
         else:
-            decision = do_matrix_lookup_3d(self._hard_should_double_matrix, self._count.count, player_hand.get_optimal_score(), dealer_up_card.numeric_value)
+            decision = do_matrix_lookup_3d(self._hard_should_double_matrix, pre_hand_count, player_hand.get_optimal_score(), dealer_up_card.numeric_value)
 
         logger.decision(f'Double down hand decision function is {decision} for {player_hand.get_hand_string()} and dealer up card: {dealer_up_card.get_card_string()}')
         return decision
     
-    def should_player_hit(self, player_hand, dealer_up_card):
+    def should_player_hit(self, player_hand, dealer_up_card, pre_hand_count):
         non_ace_total = player_hand.get_non_aces_hand_total()
 
         if player_hand.contains_ace() and non_ace_total < 10:
-            decision = do_matrix_lookup_3d(self._soft_should_hit_matrix, self._count.count, non_ace_total, dealer_up_card.numeric_value)
+            decision = do_matrix_lookup_3d(self._soft_should_hit_matrix, pre_hand_count, non_ace_total, dealer_up_card.numeric_value)
         else:
-            decision = do_matrix_lookup_3d(self._hard_should_hit_matrix, self._count.count, player_hand.get_optimal_score(), dealer_up_card.numeric_value)
+            decision = do_matrix_lookup_3d(self._hard_should_hit_matrix, pre_hand_count, player_hand.get_optimal_score(), dealer_up_card.numeric_value)
 
         logger.card(f'Player hit decision is {decision} with {player_hand.get_hand_string()} and dealer up card {dealer_up_card.get_card_string()}')
         return decision
     
-    def should_split_func(self, player_hand, dealer_up_card):
+    def should_split_func(self, player_hand, dealer_up_card, pre_hand_count):
         card1, card2 = player_hand.cards
-        decision = (card1.numeric_value == card2.numeric_value) and do_matrix_lookup_3d(self._should_split_matrix, self._count.count, card1.numeric_value, dealer_up_card.numeric_value)
+        decision = (card1.numeric_value == card2.numeric_value) and do_matrix_lookup_3d(self._should_split_matrix, pre_hand_count, card1.numeric_value, dealer_up_card.numeric_value)
         logger.decision(f'''Split hand decision is {decision} with two {card1.get_card_string()} and dealer up card {dealer_up_card.get_card_string()}''')
         return decision
         
-    def should_surrender_func(self, player_hand, dealer_up_card): 
-        decision = do_matrix_lookup_3d(self._should_surrender_matrix, self._count.count, player_hand.get_optimal_score(), dealer_up_card.numeric_value)
+    def should_surrender_func(self, player_hand, dealer_up_card, pre_hand_count): 
+        decision = do_matrix_lookup_3d(self._should_surrender_matrix, pre_hand_count, player_hand.get_optimal_score(), dealer_up_card.numeric_value)
         logger.decision(f'Player surrender decision is {decision} with {player_hand.get_hand_string()} and dealer up card {dealer_up_card.get_card_string()}')
         return decision
     
-    def should_take_insurance_func(self, dealer_up_card):
-        decision = dealer_up_card.is_ace() and bool(self._should_take_insurance_matrix.get(adjust_to_range(self._count.count, self._should_take_insurance_matrix.keys()), 0))
-        logger.decision(f'Insurance decision is {decision} taken with dealer up card: {dealer_up_card.get_card_string()} and count: {self._count.count}')
+    def should_take_insurance_func(self, dealer_up_card, pre_hand_count):
+        decision = dealer_up_card.is_ace() and bool(self._should_take_insurance_matrix.get(adjust_to_range(pre_hand_count, self._should_take_insurance_matrix.keys()), 0))
+        logger.decision(f'Insurance decision is {decision} taken with dealer up card: {dealer_up_card.get_card_string()} and count: {pre_hand_count}')
         return decision
