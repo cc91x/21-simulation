@@ -9,8 +9,7 @@ from gameplay_config import GameplayConfig as cfg
 
 def adjust_to_range(num, val_range):
     """ Used to map a count to a decision count. Often times decisions are defined every few changes in count, e.g. -2,0,2,4... 
-    We then only define decision charts for counts when they change. There would be a chart for counts -2, 0, 2, 4, but no chart for -1, 1, 3.
-    We would then map each value to the closest defined count towards 0. So 1 maps to 0, 3 to 2, -3 to -2, -1 to 0 etc. 
+    We use the value in val_range equal or just below num. if is outside of val_range, we use the min/max of val_range. 
     """
     sorted_range = sorted(val_range)
     closest = sorted_range[0]
